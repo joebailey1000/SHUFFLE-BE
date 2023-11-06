@@ -12,6 +12,7 @@ beforeEach(()=> {
 })
 
 afterAll(()=>{
+  db.end()
   server.close()
 })
 

@@ -3,13 +3,13 @@ const db = require('../connection')
 const { normaliseDate } = require('../utils')
 
 const seed = ({songData, userData}) => {
+    console.log(db)
     return db.query(`DROP TABLE IF EXISTS rankings;`)
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS users;`)
     })
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS songs;`)
-        .catch((err) => console.log(err, "<<< ERROR"))
     })
     .then(() => {
         return db.query(`CREATE TABLE songs (

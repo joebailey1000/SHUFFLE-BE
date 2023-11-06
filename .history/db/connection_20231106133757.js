@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const ENV = process.env.NODE_ENV || 'test'
+const ENV = process.env.NODE_ENV || 'test';
 
 require('dotenv').config({
   path: `${__dirname}/../.env.${ENV}`,
@@ -8,9 +8,7 @@ require('dotenv').config({
 
 const config = {};
 
-if (process.env.NODE_ENV === 'production') {
-  config.connectionString = process.env.NODE_ENV
-  config.max = 2
-}
+config.connectionString = process.env.NODE_ENV
+config.max = 2
 
 module.exports = new Pool(config);

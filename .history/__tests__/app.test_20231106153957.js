@@ -1,10 +1,11 @@
 const request=require('supertest')
-const {
-  app,
-  server
-}=require('../app.js')
+// const {
+//   app,
+//   server
+// }=require('../app.js')
 const seed = require('../db/seeds/seed')
 const { songData, userData } = require('../db/data/test/stringify.js')
+const db = require('../db/connection')
 
 
 beforeEach(()=> {
@@ -12,6 +13,7 @@ beforeEach(()=> {
 })
 
 afterAll(()=>{
+  db.end()
   server.close()
 })
 

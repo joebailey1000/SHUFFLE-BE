@@ -9,9 +9,9 @@ const seed = ({songData, userData}) => {
     })
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS songs;`)
-        .catch((err) => console.log(err, "<<< ERROR"))
     })
     .then(() => {
+        console.log("ARE WE GETTING THERE?")
         return db.query(`CREATE TABLE songs (
             song_id VARCHAR(255)  PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
@@ -49,6 +49,7 @@ const seed = ({songData, userData}) => {
         );`)})
     .then( () => songData = JSON.parse(songData))
     .then((data) => {
+        console.log(data, "SONG DATA")
         const songData = data.map((song) => {
             dateFormatted = normaliseDate(song.release_date)
             return [
