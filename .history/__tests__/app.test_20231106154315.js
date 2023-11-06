@@ -5,6 +5,7 @@ const {
 }=require('../app.js')
 const seed = require('../db/seeds/seed')
 const { songData, userData } = require('../db/data/test/stringify.js')
+const db = require('../db/connection')
 
 
 beforeEach(()=> {
@@ -12,7 +13,8 @@ beforeEach(()=> {
 })
 
 afterAll(()=>{
-  server.close()
+  // server.close()
+  return db.end()
 })
 
 describe('GET /healthcheck',()=>{

@@ -12,6 +12,7 @@ const seed = ({songData, userData}) => {
         .catch((err) => console.log(err, "<<< ERROR"))
     })
     .then(() => {
+        console.log("ARE WE GETTING THERE?")
         return db.query(`CREATE TABLE songs (
             song_id VARCHAR(255)  PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
@@ -49,6 +50,7 @@ const seed = ({songData, userData}) => {
         );`)})
     .then( () => songData = JSON.parse(songData))
     .then((data) => {
+        console.log(data, "SONG DATA")
         const songData = data.map((song) => {
             dateFormatted = normaliseDate(song.release_date)
             return [
@@ -88,6 +90,7 @@ const seed = ({songData, userData}) => {
         const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, userData)
         return db.query(queryString)
     })
+    .catch((err) => console.log(err, "<<< ERROR"))
 }
 
 module.exports = seed

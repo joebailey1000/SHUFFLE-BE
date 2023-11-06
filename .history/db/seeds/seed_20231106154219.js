@@ -88,6 +88,7 @@ const seed = ({songData, userData}) => {
         const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, userData)
         return db.query(queryString)
     })
+    // .catch((err) => console.log(err, "<<< ERROR"))
 }
 
 module.exports = seed
