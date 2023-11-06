@@ -4,7 +4,7 @@
   "description": "backend for shuffle io",
   "main": "app.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=shuffle_database_test jest",
     "setup-db": "psql -f ./db/setup.sql"
   },
   "repository": {
@@ -19,7 +19,6 @@
   "homepage": "https://github.com/joebailey1000/SHUFFLE-BE#readme",
   "dependencies": {
     "dotenv": "^16.3.1",
-     "axios": "^1.6.0",
     "express": "^4.18.2",
     "pg": "^8.11.3",
     "pg-format": "^1.0.4"

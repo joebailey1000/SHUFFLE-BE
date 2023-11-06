@@ -45,6 +45,6 @@ describe.only("GET /api/songs", () => {
         expect(body[0]).toHaveProperty("liveness");
         expect(body[0]).toHaveProperty("valence");
         expect(body[0]).toHaveProperty("tempo");
-
+        
       })
   })})
