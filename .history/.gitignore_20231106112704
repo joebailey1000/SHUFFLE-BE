@@ -1,0 +1,7 @@
+<<<<<<< HEAD
+node_modules
+=======
+node_modules
+.env
+db/data/development/songs.json
+>>>>>>> seeding
