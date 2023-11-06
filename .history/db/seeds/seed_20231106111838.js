@@ -1,5 +1,6 @@
 const format = require('pg-format')
 const db = require('../connection')
+const fs = require('fs/promises')
 const { normaliseDate } = require('../utils')
 
 const seed = ({songData, userData}) => {
@@ -33,6 +34,7 @@ const seed = ({songData, userData}) => {
             popularity_weighting FLOAT NOT NULL,
             danceability_weighting FLOAT NOT NULL,
             energy_weighting FLOAT NOT NULL,
+            loudness_weighting FLOAT NOT NULL,
             acousticness_weighting FLOAT NOT NULL,
             instrumentalness_weighting FLOAT NOT NULL,
             liveness_weighting FLOAT NOT NULL,
@@ -70,13 +72,14 @@ const seed = ({songData, userData}) => {
         return db.query(queryString)
     })
     .then(() => userData = JSON.parse(userData))
-    .then((data) => {
-        const userData = data.map((user) => {
+    .then(() => {
+        const userData = userData.map((user) => {
             return [
                 user.username,
                 user.popularity_weighting,
                 user.danceability_weighting,
                 user.energy_weighting,
+                user.loudness_weighting,
                 user.acousticness_weighting,
                 user.instrumentalness_weighting,
                 user.liveness_weighting,
@@ -85,7 +88,7 @@ const seed = ({songData, userData}) => {
             ]
         })
         console.log(userData)
-        const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, userData)
+        const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, loudness_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, userData)
         return db.query(queryString)
     })
 }

@@ -1,5 +1,6 @@
 const format = require('pg-format')
 const db = require('../connection')
+const fs = require('fs/promises')
 const { normaliseDate } = require('../utils')
 
 const seed = ({songData, userData}) => {

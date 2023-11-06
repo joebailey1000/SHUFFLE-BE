@@ -1,0 +1,50 @@
+[
+    {
+        "Username": "Rob",
+        "Popularity Weighting": 1.2,
+        "Modernity Weighting": 1.5,
+        "Danceability Weighting": 1.1,
+        "Energy Weighting": 1.4,
+        "Acousticness Weighting": 0.9,
+        "Instrumentalness Weighting": 1.7,
+        "Liveness Weighting": 0.4,
+        "Valence Weighting": 1.0,
+        "Tempo Weighting": 1.6
+    },
+    {
+        "Username": "Louis",
+        "Popularity Weighting": 1.3,
+        "Modernity Weighting": 1.6,
+        "Danceability Weighting": 1.4,
+        "Energy Weighting": 1.3,
+        "Acousticness Weighting": 0.7,
+        "Instrumentalness Weighting": 1.8,
+        "Liveness Weighting": 0.5,
+        "Valence Weighting": 1.1,
+        "Tempo Weighting": 1.5
+    },
+    {
+        "Username": "Joe",
+        "Popularity Weighting": 1.1,
+        "Modernity Weighting (release date)": 1.4,
+        "Danceability Weighting": 1.2,
+        "Energy Weighting": 1.6,
+        "Acousticness Weighting": 0.8,
+        "Instrumentalness Weighting": 1.5,
+        "Liveness Weighting": 0.3,
+        "Valence Weighting": 1.3,
+        "Tempo Weighting": 1.7
+    },
+    {
+        "Username": "Nick",
+        "Popularity Weighting": 1.5,
+        "Modernity Weighting": 1.7,
+        "Danceability Weighting": 1.3,
+        "Energy Weighting": 1.4,
+        "Acousticness Weighting": 0.6,
+        "Instrumentalness Weighting": 1.6,
+        "Liveness Weighting": 0.2,
+        "Valence Weighting": 1.2,
+        "Tempo Weighting": 1.8
+    }
+]
