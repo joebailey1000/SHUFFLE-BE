@@ -1,10 +1,14 @@
-import axios from 'axios';
+const axios = require('axios')
 
 const deezApi = axios.create({
     baseURL: 'https://corsproxy.io/?https://api.deezer.com'
 });
 
-export const getTrackInfo = ({ title, artist }) => {
+const getTrackInfo = (testData) => {
+    testDataParsed = JSON.parse(testData)
+    console.log(testDataParsed[6], "TEST DATA IN DEEZ API")
+    const title = testDataParsed[6].name
+    const artist = testDataParsed[6].artist
     const query = `${title} ${artist}`;
     
     return deezApi.get('/search', {
@@ -22,3 +26,5 @@ export const getTrackInfo = ({ title, artist }) => {
         throw err;
     });
 };
+
+module.exports = { deezApi, getTrackInfo }
