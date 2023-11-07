@@ -1,7 +1,6 @@
 const { getTrackInfo }  = require('./deezApi')
 const fs = require('fs')
 
-// const testData = fs.readFileSync('./db/data/test/songs-test.json', 'utf-8')
 
 const fetchTrackInfo = (testData) => {
     return getTrackInfo(testData[6].name, testData[6].artists)

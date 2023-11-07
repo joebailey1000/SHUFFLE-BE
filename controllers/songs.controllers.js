@@ -6,7 +6,9 @@ exports.getSongs = (req, res, next) => {
         console.log(data, "<<< DATA")
         res.status(200).send(data)
     })
-
-
-
 }
+
+
+
+// get data from dataset
+// use that data to get album art and preview from deezer api
