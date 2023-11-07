@@ -133,11 +133,11 @@
     },
     {
         "id": "007",
-        "name": "Song G",
+        "name": "Juicy",
         "popularity": 53,
         "duration_ms": 215000,
         "explicit": 0,
-        "artists": ["Artist G"],
+        "artists": ["Notorious B.I.G."],
         "id_artists": ["G1"],
         "release_date": "2022-07-01",
         "danceability": 0.615,
