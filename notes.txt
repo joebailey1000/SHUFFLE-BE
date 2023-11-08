@@ -1,0 +1,16 @@
+Currently:
+
+1.  We have two databases: 1. Spotify API   2. Deez API
+2.  Getting songs from spotify API and using this to play music through the Deez API
+
+What we want:
+
+1. We want to create a datebase, which checks through deez api, finds ones which match 
+a song from the spotify and add this song to our new database:
+
+1.   Spotify id
+2.   Deeze api id
+3.   Artist
+4.   Song name
+5.   URL to play INTEGER
+....

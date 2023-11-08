@@ -10,7 +10,7 @@ exports.fetchSongsQuery = (query) => {
 
             if (!(/(_min|_max)$/.test(key))) return
 
-            value = Number(songQueries[key])
+            let value = songQueries[key]
     
             if (isNaN(value)) return
 
@@ -30,7 +30,7 @@ exports.fetchSongsQuery = (query) => {
     const generateQuery = () => {
 
 
-        if (query.random) return sqlQuery += " ORDER BY RANDOM() LIMIT 1"
+        if (query.random) return sqlQuery += " ORDER BY RANDOM()"
 
         if (Object.keys(minsMaxs).length) {
             for (let attribute in minsMaxs) {
@@ -42,7 +42,7 @@ exports.fetchSongsQuery = (query) => {
          }
         
          songQueriesKeys.forEach((key) => {
-                conditions.push(` ${key} = '${songQueries[key]}'`)
+                conditions.push(` LOWER(${key}) = 'LOWER(${songQueries[key]})'`)
             })
 
     }
@@ -68,7 +68,6 @@ exports.fetchSongsQuery = (query) => {
     if (conditions.length) sqlQuery += " WHERE"
     sqlQuery += conditions.join(" AND ")
     if (query.limit) sqlQuery += ` LIMIT ${query.limit}`
-
 
     return sqlQuery
 
