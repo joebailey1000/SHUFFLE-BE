@@ -1,10 +1,9 @@
 const format = require('pg-format')
 const db = require('../connection')
-const { normaliseDate } = require('../utils')
+const { normaliseDate, normaliseTempo } = require('../utils')
 
 
 const seed = (songData, userData) => {
-    console.log(songData, "songData")
     return db.query(`DROP TABLE IF EXISTS rankings;`)
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS users;`)
@@ -56,26 +55,28 @@ const seed = (songData, userData) => {
         );`)})
     .then(() => {
         const FormattedSongData = songData.map((song) => {
-            dateFormatted = normaliseDate(song.release_date)
+            let dateFormatted = normaliseDate(song.release_date)
+            let tempo = normaliseTempo(Number(song.tempo))
+            let popularity = song.popularity / 100
             return [
                 song.spotifyID,
                 song.deezerID,
                 song.title,
                 song.artist, //ONLY FIRST ARTIST!
-                song.popularity,
+                popularity,
                 dateFormatted,
-                song.danceability,
-                song.energy,
-                song.loudness,
-                song.acousticness,
-                song.instrumentalness,
-                song.liveness,
-                song.valence,
-                song.tempo,
+                Number(song.danceability),
+                Number(song.energy),
+                Number(song.loudness),
+                Number(song.acousticness),
+                Number(song.instrumentalness),
+                Number(song.liveness),
+                Number(song.valence),
+                tempo,
                 song.preview,
                 song.album,
                 song.link,
-                song.albumcover
+                song.albumcover,
             ]
         })
         const queryString = format(`INSERT INTO songs (spotify_id, deezer_id, title, artist, popularity, modernity, danceability, energy, loudness, acousticness, instrumentalness, liveness, valence, tempo, preview, album, link, albumcover) VALUES %L RETURNING *;`, FormattedSongData)

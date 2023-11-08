@@ -15,4 +15,11 @@ function normaliseDate(date) {
 
 }
 
-module.exports = { normaliseDate }
+function normaliseTempo(tempo) {
+    let min = 0
+    let max = 238.895
+    let normalised = (tempo - min) / (max - min)
+    return normalised.toFixed(2)
+}
+
+module.exports = { normaliseDate, normaliseTempo }
