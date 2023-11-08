@@ -38,6 +38,6 @@ exports.postNewUser = (username,
             valence_weighting,
             tempo_weighting])
         .then(({rows}) => {
-            console.log(rows, "ROWS IN MODEL")
+            return rows[0];
         })
 }

@@ -4,7 +4,10 @@ const { getUsers, addNewUser } = require('./controllers/users.controllers')
 const cors = require('cors')
 
 const express=require('express')
-const app=express()
+
+const app = express()
+
+app.use(express.json())
 
 app.use(cors({ origin: ['http://localhost:19006', 'http://shufl-be.onrender.com', 'https://shufl-be.onrender.com'], credentials: true }))
 

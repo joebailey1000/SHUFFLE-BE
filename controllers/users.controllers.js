@@ -8,7 +8,6 @@ exports.getUsers = (req, res, next) => {
 }
 
 exports.addNewUser = (req, res, next) => {
-    console.log(req)
     const { username,
         popularity_weighting,
         danceability_weighting,

@@ -321,7 +321,7 @@ describe("GET /api/songs", () => {
   })
 
   describe.only('POST /api/users', ()=> {
-    test('returns 201', ()=> {
+    test('returns 201 and the new user', ()=> {
       return request(app)
       .post('/api/users')
       .send({
@@ -337,6 +337,20 @@ describe("GET /api/songs", () => {
       })
       .then((res) => {
         expect(res.status).toBe(201)
+        expect(res.body).toMatchObject({
+          users: {
+            user_id: 9,
+            username: 'Big John',
+            popularity_weighting: 0.9,
+            danceability_weighting: 1,
+            energy_weighting: 1.1,
+            acousticness_weighting: 0.7,
+            instrumentalness_weighting: 1.3,
+            liveness_weighting: 0.9,
+            valence_weighting: 0.8,
+            tempo_weighting: 1.2
+          }
+        })
       })
     })
   })
