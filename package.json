@@ -2,7 +2,7 @@
   "name": "shuffle-be",
   "version": "1.0.0",
   "description": "backend for shuffle io",
-  "main": "app.js",
+  "main": "listen.js",
   "scripts": {
     "test": "jest",
     "setup-db": "psql -f ./db/setup.sql",

@@ -1,5 +1,4 @@
 const lodash = require('lodash');
-
 exports.fetchSongsQuery = (query) => {
     const generateMinMax = () => {
         const minsMaxs = {}
@@ -45,6 +44,5 @@ exports.fetchSongsQuery = (query) => {
     if (conditions.length) sqlQuery += ' WHERE'
     sqlQuery += conditions.join(' AND ')
     if (query.limit) sqlQuery += ` LIMIT ${query.limit}`
-
     return sqlQuery
 }
