@@ -5,6 +5,7 @@ const deezApi = axios.create({
     baseURL: 'https://api.deezer.com'
 });
 
+<<<<<<<< HEAD:utils/deezApi.js
 //we want to query our database???
 
 
@@ -12,6 +13,13 @@ const deezApi = axios.create({
 
 
 const getTrackInfo = async (songQuery) => {
+========
+const getTrackInfo = (testData) => {
+    testDataParsed = JSON.parse(testData)
+    const title = testDataParsed[6].name
+    const artist = testDataParsed[6].artists[0]
+    const query = `${title}+${artist}`;
+>>>>>>>> main:utils/deezApi.jsx
     
     const title = songQuery.title
     const artist = songQuery.artist
