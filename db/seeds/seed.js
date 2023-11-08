@@ -55,7 +55,6 @@ const seed = (songData, userData) => {
             ranking INTEGER NOT NULL
         );`)})
     .then(() => {
-        // console.log(songData)
         const FormattedSongData = songData.map((song) => {
             dateFormatted = normaliseDate(song.release_date)
             return [
