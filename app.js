@@ -1,4 +1,5 @@
 const { getSongs } = require('./controllers/songs.controllers')
+const cors = require('cors')
 
 const express=require('express')
 const app=express()
