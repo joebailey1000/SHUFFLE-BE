@@ -1,5 +1,7 @@
 const { Pool } = require('pg');
 
+console.log(process.env.NODE_ENV)
+
 const ENV = process.env.NODE_ENV || 'test'
 
 require('dotenv').config({
