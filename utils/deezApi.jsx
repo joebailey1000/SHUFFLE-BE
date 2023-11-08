@@ -8,7 +8,7 @@ const getTrackInfo = (testData) => {
     testDataParsed = JSON.parse(testData)
     const title = testDataParsed[6].name
     const artist = testDataParsed[6].artists[0]
-    const query = `${title} ${artist}`;
+    const query = `${title}+${artist}`;
     
     return deezApi.get('/search', {
         params: {
