@@ -6,14 +6,9 @@ const seed = require('../db/seeds/seed')
 const mergedSongs = require('../db/data/development/mergedSongs')
 const { userData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
-<<<<<<< HEAD
-const { normaliseDate, normaliseTempo } = require('../db/utils')
-const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
-=======
 const { normaliseDate } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
 console.log(cutSongs)
->>>>>>> 30f3184e653e35f8ccbab59285c98770dac4df56
 
 
 beforeEach( async ()=> {
@@ -57,15 +52,9 @@ describe("GET /api/songs", () => {
     })
   })
 
-<<<<<<< HEAD
   test("returns one song when random=true is a query and limit is 1", () => {
     return request(app)
     .get("/api/songs?random=true&limit=1")
-=======
-  test("returns one song when random=true is a query", () => {
-    return request(app)
-    .get("/api/songs?random=true")
->>>>>>> 30f3184e653e35f8ccbab59285c98770dac4df56
     .expect(200)
     .then(({body: { songs }}) => {
       expect(songs).toHaveLength(1)
