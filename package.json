@@ -1,0 +1,35 @@
+{
+  "name": "shuffle-be",
+  "version": "1.0.0",
+  "description": "backend for shuffle io",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "setup-db": "psql -f ./db/setup.sql",
+    "seed-prod": "NODE_ENV=production node ./db/seeds/run-seed.js",
+    "start": "node listen.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joebailey1000/SHUFFLE-BE.git"
+  },
+  "author": "Joe Bailey, Louis Roach, Nick Diplos, Rob Lehane",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joebailey1000/SHUFFLE-BE/issues"
+  },
+  "homepage": "https://github.com/joebailey1000/SHUFFLE-BE#readme",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "pg": "^8.11.3",
+    "pg-format": "^1.0.4",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  }
+}
