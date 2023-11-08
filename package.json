@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "setup-db": "psql -f ./db/setup.sql",
-    "seed-prod": "NODE_ENV=production node ./db/seeds/run-seed.js"
-    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production node ./db/seeds/run-seed.js",
+    "start": "node listen.js"
   },
   "repository": {
     "type": "git",
