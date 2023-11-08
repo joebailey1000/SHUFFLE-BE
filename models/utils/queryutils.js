@@ -69,7 +69,5 @@ exports.fetchSongsQuery = (query) => {
   sqlQuery += conditions.join(" AND ")
   if (query.limit) sqlQuery += ` LIMIT ${query.limit}`
 
-
   return sqlQuery
-
 }

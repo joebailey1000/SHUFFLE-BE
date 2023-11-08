@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "setup-db": "psql -f ./db/setup.sql",
+    "seed-prod": "NODE_ENV=production node ./db/seeds/run-seed.js"
     "start": "node listen.js",
-    "seed-prod": "NODE_ENV=production node db/seeds/seed.js"
   },
   "repository": {
     "type": "git",
@@ -20,9 +20,9 @@
   },
   "homepage": "https://github.com/joebailey1000/SHUFFLE-BE#readme",
   "dependencies": {
+    "axios": "^1.6.0",
     "chalk": "^5.3.0",
     "dotenv": "^16.3.1",
-     "axios": "^1.6.0",
     "express": "^4.18.2",
     "inquirer": "^8.0.0",
     "lodash": "^4.17.21",
