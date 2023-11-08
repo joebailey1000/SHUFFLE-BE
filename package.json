@@ -2,10 +2,12 @@
   "name": "shuffle-be",
   "version": "1.0.0",
   "description": "backend for shuffle io",
-  "main": "app.js",
+  "main": "listen.js",
   "scripts": {
     "test": "jest",
-    "setup-db": "psql -f ./db/setup.sql"
+    "setup-db": "psql -f ./db/setup.sql",
+    "start": "node listen.js",
+    "seed-prod": "NODE_ENV=production node db/seeds/seed.js"
   },
   "repository": {
     "type": "git",
