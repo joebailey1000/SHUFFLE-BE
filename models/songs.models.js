@@ -1,10 +1,8 @@
 const db = require('../db/connection')
+const { fetchSongsQuery } = require('./utils/queryutils')
 
 
-exports.fetchSongs = () => {
-    // console.log("GET HERE")
-    // console.log(db, "db")
-    return db.query(`SELECT * FROM songs`).then(({ rows }) => {
-        console.log(rows, "<<< ROWS")
-        return rows})
+exports.fetchSongs = (query) => {
+    const sqlQuery = fetchSongsQuery(query)
+    return db.query(sqlQuery).then(({ rows }) => rows)
     }
