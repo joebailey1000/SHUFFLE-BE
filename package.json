@@ -28,7 +28,7 @@
     "lodash": "^4.17.21",
     "pg": "^8.11.3",
     "pg-format": "^1.0.4",
-    "cors": "^10.0.0"
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "jest": "^29.7.0",
