@@ -8,7 +8,7 @@ const { userData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
 const { normaliseDate } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
-console.log(cutSongs)
+// console.log(cutSongs)
 
 
 beforeEach( async ()=> {
@@ -305,3 +305,38 @@ describe("GET /api/songs", () => {
 
 
 
+  describe('GET /api/users',()=>{
+    test('returns 200', ()=> {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+    })
+    test('returns an array of users', ()=> {
+      return request(app)
+        .get('/api/users')
+        .then(({body}) => {
+          expect(body.users).toHaveLength(8)
+        })
+    })
+  })
+
+  describe.only('POST /api/users', ()=> {
+    test('returns 201', ()=> {
+      return request(app)
+      .post('/api/users')
+      .send({
+        username: 'Big John',
+        popularity_weighting: 0.9,
+        danceability_weighting: 1,
+        energy_weighting: 1.1,
+        acousticness_weighting: 0.7,
+        instrumentalness_weighting: 1.3,
+        liveness_weighting: 0.9,
+        valence_weighting: 0.8,
+        tempo_weighting: 1.2
+      })
+      .then((res) => {
+        expect(res.status).toBe(201)
+      })
+    })
+  })
