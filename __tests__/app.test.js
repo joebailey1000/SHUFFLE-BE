@@ -6,7 +6,7 @@ const seed = require('../db/seeds/seed')
 const mergedSongs = require('../db/data/development/mergedSongs')
 const { userData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
-const { normaliseDate } = require('../db/utils')
+const { normaliseDate, normaliseTempo } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
 console.log(cutSongs)
 
@@ -229,13 +229,13 @@ describe("GET /api/songs", () => {
 
   test("returns songs with a given tempo when tempo is a query", () => {
     return request(app)
-    .get("/api/songs?tempo=120.045")
+    .get("/api/songs?tempo=0.7")
     .expect(200)
     .then(({body: { songs }}) => {
-      const tempoSongs = cutSongs.filter(song => song.tempo === 120.045)
+      const tempoSongs = cutSongs.filter(song => normaliseTempo(Number(song.tempo)) === 0.7)
       expect(songs).toHaveLength(tempoSongs.length)
       songs.forEach( (song) => {
-        expect(song.tempo).toBe(120.045)
+        expect(song.tempo).toBe(0.7)
       })
     })
   })
@@ -286,16 +286,16 @@ describe("GET /api/songs", () => {
 
     test("returns a song with a range for tempo and an artist", () => {
       return request(app)
-      .get("/api/songs?tempo_min=120.000&tempo_max=120.500&artist=Artist%20G")
+      .get("/api/songs?tempo_min=0.5&tempo_max=0.9&artist=Roy%20Orbison")
       .expect(200)
       .then(({body: { songs }}) => {
-        const tempoSongs = cutSongs.filter(song => song.tempo >= 120.000 && song.tempo <= 120.500)
-        const artistGSongs = tempoSongs.filter(song => song.artists[0] === "Artist G")
-        expect(songs).toHaveLength(artistGSongs.length)
+        const tempoSongs = cutSongs.filter(song => normaliseTempo(song.tempo) >= 0.5 && normaliseTempo(song.tempo) <= 0.9)
+        const artistSongs = tempoSongs.filter(song => song.artist === "Roy Orbison")
+        expect(songs).toHaveLength(artistSongs.length)
         songs.forEach( (song) => {
-          expect(song.tempo).toBeGreaterThanOrEqual(120.000)
-          expect(song.tempo).toBeLessThanOrEqual(120.500)
-          expect(song.artist).toBe("Artist G")
+          expect(song.tempo).toBeGreaterThanOrEqual(0.5)
+          expect(song.tempo).toBeLessThanOrEqual(0.9)
+          expect(song.artist).toBe("Roy Orbison")
         })
       })
     })
