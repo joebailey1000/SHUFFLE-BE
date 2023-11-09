@@ -1,0 +1,11 @@
+import psycopg2
+
+connect = psycopg2.connect("postgres://qficvrjz:xgzayMFH1uUCEE-xAVxmnlxcRkDQcdaT@flora.db.elephantsql.com/qficvrjz")
+
+cur = connect.cursor()
+
+cur.execute("SELECT * FROM songs")
+
+records = cur.fetchall()
+
+print(records) 
