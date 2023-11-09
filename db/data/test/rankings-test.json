@@ -1,0 +1,33 @@
+[
+    {
+      "user_ID": 1,
+      "song_ID": 4,
+      "ranking": 3
+    },
+    {
+      "user_ID": 2,
+      "song_ID": 79,
+      "ranking": 4
+    },
+    {
+      "user_ID": 3,
+      "song_ID": 63,
+      "ranking": 2
+    },
+    {
+      "user_ID": 4,
+      "song_ID": 57,
+      "ranking": 3
+    },
+    {
+      "user_ID": 5,
+      "song_ID": 41,
+      "ranking": 2
+    },
+    {
+      "user_ID": 6,
+      "song_ID": 40,
+      "ranking": 4
+    }
+  ]
+  
