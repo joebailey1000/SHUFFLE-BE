@@ -1,0 +1,164 @@
+{
+    "GET /healthcheck": {
+        "description": "returns a 200 status code if api is up and running",
+        "queries": [],
+        "exampleResponse": {
+            "GET /healthcheck": { "status": 200 }
+        }
+    },
+    "GET /api/songs": {
+        "description": "returns songs with various queries that can be combined",
+        "queries": [
+            "title",
+            "artist",
+            "song_id",
+            "modernity",
+            "modernity_max",
+            "modernity_min",
+            "popularity",
+            "popularity_max",
+            "popularity_min",
+            "danceability",
+            "danceability_max",
+            "danceability_min",
+            "energy",
+            "energy_max",
+            "energy_min",
+            "loudness",
+            "loudness_max",
+            "loudness_min",
+            "acousticness",
+            "acousticness_max",
+            "acousticness_min",
+            "instrumentalness",
+            "instrumentalness_max",
+            "instrumentalness_min",
+            "liveness",
+            "liveness_max",
+            "liveness_min",
+            "valence",
+            "valence_max",
+            "valence_min",
+            "tempo",
+            "tempo_max",
+            "tempo_min",
+            "random",
+            "limit"
+        ],
+        "exampleResponse": {
+            "GET /api/songs?random=true&limit=3": {
+                "songs": [
+                    {
+                        "song_id": 18333,
+                        "spotify_id": "3aPpSTt5aUVAYYvtYYgHVx",
+                        "deezer_id": "2754397",
+                        "title": "On The Hunt (Live At Bill Graham's Winterland/1975)",
+                        "artist": "Lynyrd Skynyrd",
+                        "modernity": 0.24,
+                        "popularity": 0.28,
+                        "danceability": 0.562,
+                        "energy": 0.804,
+                        "loudness": -8.131,
+                        "acousticness": 0.64,
+                        "instrumentalness": 0.000359,
+                        "liveness": 0.978,
+                        "valence": 0.678,
+                        "tempo": 0.52,
+                        "preview": "https://cdns-preview-1.dzcdn.net/stream/c-16c76b394f1b58d42cfa623bad51d260-7.mp3",
+                        "album": "Nuthin' Fancy",
+                        "link": "https://www.deezer.com/track/2754397",
+                        "albumcover": "https://e-cdns-images.dzcdn.net/images/cover/6af6b0619b8cfe90f158319ad0e9e590/500x500-000000-80-0-0.jpg"
+                    },
+                    {
+                        "song_id": 36305,
+                        "spotify_id": "2kuTmskJFZW1L3FMMJFSFp",
+                        "deezer_id": "1014039",
+                        "title": "Handy Man",
+                        "artist": "James Taylor",
+                        "modernity": 0.53,
+                        "popularity": 0.35,
+                        "danceability": 0.542,
+                        "energy": 0.403,
+                        "loudness": -11.953,
+                        "acousticness": 0.357,
+                        "instrumentalness": 0.00000457,
+                        "liveness": 0.714,
+                        "valence": 0.4,
+                        "tempo": 0.38,
+                        "preview": "https://cdns-preview-f.dzcdn.net/stream/c-f49592fc94da1afffcd8b1b5dc66cc83-7.mp3",
+                        "album": "James Taylor Live",
+                        "link": "https://www.deezer.com/track/1014039",
+                        "albumcover": "https://e-cdns-images.dzcdn.net/images/cover/6dbb2acb89381b157c8b1889b77aa144/500x500-000000-80-0-0.jpg"
+                    },
+                    {
+                        "song_id": 27314,
+                        "spotify_id": "4l012k8ZcAdVbUvZ4kae5Q",
+                        "deezer_id": "13791939",
+                        "title": "Stay Away",
+                        "artist": "Nirvana",
+                        "modernity": 0.5,
+                        "popularity": 0.58,
+                        "danceability": 0.367,
+                        "energy": 0.981,
+                        "loudness": -5.1,
+                        "acousticness": 0.00000539,
+                        "instrumentalness": 0.0461,
+                        "liveness": 0.0822,
+                        "valence": 0.205,
+                        "tempo": 0.69,
+                        "preview": "https://cdns-preview-a.dzcdn.net/stream/c-a6c07338b630b651ce0b900dda12f21d-8.mp3",
+                        "album": "Nevermind (Remastered)",
+                        "link": "https://www.deezer.com/track/13791939",
+                        "albumcover": "https://e-cdns-images.dzcdn.net/images/cover/f0282817b697279e56df13909962a54a/500x500-000000-80-0-0.jpg"
+                    }
+                ]
+            }
+        }
+    },
+    "GET /api/users": {
+        "description": "returns a table of user info",
+        "queries": ["username"],
+        "exampleResponse": {
+            "GET /api/users": {
+                "users": [
+                    {
+                        "user_id": 1,
+                        "username": "Rob",
+                        "popularity_weighting": 1,
+                        "danceability_weighting": 1,
+                        "energy_weighting": 1,
+                        "acousticness_weighting": 1,
+                        "instrumentalness_weighting": 1,
+                        "liveness_weighting": 1,
+                        "valence_weighting": 1,
+                        "tempo_weighting": 1
+                    },
+                    {
+                        "user_id": 2,
+                        "username": "Louis",
+                        "popularity_weighting": 1,
+                        "danceability_weighting": 1,
+                        "energy_weighting": 1,
+                        "acousticness_weighting": 1,
+                        "instrumentalness_weighting": 1,
+                        "liveness_weighting": 1,
+                        "valence_weighting": 1,
+                        "tempo_weighting": 1
+                    },
+                    {
+                        "user_id": 3,
+                        "username": "Joe",
+                        "popularity_weighting": 1.2,
+                        "danceability_weighting": 1.4,
+                        "energy_weighting": 0.6,
+                        "acousticness_weighting": 0.8,
+                        "instrumentalness_weighting": 0.9,
+                        "liveness_weighting": 1.1,
+                        "valence_weighting": 1,
+                        "tempo_weighting": 0.7
+                    }
+                ]
+            }
+        }
+    }
+}

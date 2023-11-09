@@ -1,11 +1,16 @@
 const db = require('../db/connection')
 
-exports.fetchUsers = () => {
-    return db.query(`SELECT * FROM users`)
-    .then(({rows}) => {
-        return rows;
-    })
-}
+exports.fetchUsers = (username) => {
+    let query = `SELECT * FROM users`;
+    if (username) {
+        query += ` WHERE username = $1`;
+    }
+
+    return db.query(query, username ? [username] : [])
+        .then(({ rows }) => {
+            return rows;
+        });
+};
 
 exports.postNewUser = (username,
     popularity_weighting,
