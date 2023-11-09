@@ -31,3 +31,7 @@ exports.addNewUser = (req, res, next) => {
             })
             .catch(next)
 };
+
+exports.updateUserInfo = (req, res, next) => {
+    
+}
