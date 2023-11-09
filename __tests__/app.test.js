@@ -2,6 +2,8 @@ const request=require('supertest')
 const {
   app
 }=require('../app.js')
+const fs = require('fs');
+const path = require('path');
 const seed = require('../db/seeds/seed')
 const mergedSongs = require('../db/data/development/mergedSongs')
 const { userData } = require('../db/data/test/readAndParse.js')
@@ -301,7 +303,7 @@ describe("GET /api/songs", () => {
   })
     
 
-  describe.only('GET /api/users',()=>{
+describe('GET /api/users',()=>{
     test('returns 200', ()=> {
       return request(app)
         .get('/api/users')
@@ -324,7 +326,7 @@ describe("GET /api/songs", () => {
     })
   })
 
-  describe('POST /api/users', ()=> {
+describe('POST /api/users', ()=> {
     test('returns 201 and the new user', ()=> {
       return request(app)
       .post('/api/users')
@@ -359,7 +361,7 @@ describe("GET /api/songs", () => {
     })
   })
 
-  describe('PATCH /api/users/:id', ()=> {
+describe('PATCH /api/users/:id', ()=> {
     test('returns 201 and the updated user', ()=> {
       return request(app)
       .patch('/api/users/1')
@@ -416,3 +418,20 @@ describe("GET /api/songs", () => {
       })
     })
   })
+
+  describe.only('GET /api', () => {
+    test("returns all endpoints", () => {
+      const endpointsPath = path.join(__dirname, '../endpoints.json');
+      return fs.promises.readFile(endpointsPath, 'utf8')
+        .then((expectedEndpoints) => {
+          return request(app)
+            .get("/api")
+            .expect(200)
+            .then((res) => {
+              const actualEndpoints = res.body;
+              console.log(expectedEndpoints)
+              expect(actualEndpoints.endpoints).toEqual(JSON.parse(expectedEndpoints));
+            });
+        });
+    });
+  });
