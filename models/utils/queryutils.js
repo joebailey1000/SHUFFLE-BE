@@ -27,7 +27,8 @@ exports.fetchSongsQuery = (query) => {
             }
          }
          songQueriesKeys.forEach((key) => {
-                conditions.push(` LOWER(${key}) = LOWER('${songQueries[key]}')`)
+                if (isNaN(songQueries[key])) conditions.push(` LOWER(${key}) = LOWER('${songQueries[key]}')`)
+                else conditions.push(` ${key} = ${songQueries[key]}`)
             })
     }
     const validSongQueries = ['title', 'artist', 'song_id', 'modernity', 'popularity', 'danceability', 'energy', 'loudness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo'];
