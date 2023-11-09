@@ -3,7 +3,7 @@ const db = require('../connection')
 const { normaliseDate, normaliseTempo } = require('../utils')
 
 
-const seed = (songData, userData) => {
+const seed = (songData, userData, rankingData) => {
     return db.query(`DROP TABLE IF EXISTS rankings;`)
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS users;`)
@@ -48,7 +48,7 @@ const seed = (songData, userData) => {
         );`)})
     .then(() => {
         return db.query(`CREATE TABLE rankings (
-            ranking_id INTEGER PRIMARY KEY,
+            ranking_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id),
             song_id  INTEGER REFERENCES songs(song_id),
             ranking INTEGER NOT NULL
@@ -99,6 +99,19 @@ const seed = (songData, userData) => {
         const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, FormattedUserData)
         return db.query(queryString)
     })
+    .then( () => {
+        if (!rankingData) return
+        const FormattedRankingData = rankingData.map((ranking) => {
+            return [
+                ranking.user_ID,
+                ranking.song_ID,
+                ranking.ranking
+            ]
+        })
+        const queryString = format(`INSERT INTO rankings (user_id, song_id, ranking) VALUES %L RETURNING *;`, FormattedRankingData)
+        return db.query(queryString)
+    })
+
 }
 
 module.exports = seed

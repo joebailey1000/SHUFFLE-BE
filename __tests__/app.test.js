@@ -6,14 +6,14 @@ const fs = require('fs');
 const path = require('path');
 const seed = require('../db/seeds/seed')
 const mergedSongs = require('../db/data/development/mergedSongs')
-const { userData } = require('../db/data/test/readAndParse.js')
+const { userData, rankingData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
-const { normaliseDate } = require('../db/utils')
+const { normaliseDate, normaliseTempo } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
 
 
 beforeEach( async ()=> {
-  await seed(cutSongs, userData)
+  await seed(cutSongs, userData, rankingData)
 })
 
 afterAll(()=>{
@@ -53,9 +53,9 @@ describe("GET /api/songs", () => {
     })
   })
 
-  test("returns one song when random=true is a query", () => {
+  test("returns one song when random=true is a query and limit is 1", () => {
     return request(app)
-    .get("/api/songs?random=true")
+    .get("/api/songs?random=true&limit=1")
     .expect(200)
     .then(({body: { songs }}) => {
       expect(songs).toHaveLength(1)
@@ -130,13 +130,13 @@ describe("GET /api/songs", () => {
 
   test("returns songs with a given popularity when popularity is a query", () => {
     return request(app)
-    .get("/api/songs?popularity=41")
+    .get("/api/songs?popularity=0.3")
     .expect(200)
     .then(({body: { songs }}) => {
-      const popularitySongs = cutSongs.filter(song => song.popularity === "41")
+      const popularitySongs = cutSongs.filter(song => song.popularity / 100 === 0.3)
       expect(songs).toHaveLength(popularitySongs.length)
       songs.forEach( (song) => {
-        expect(song.popularity).toBe(41)
+        expect(song.popularity).toBe(0.3)
       })
     })
 
@@ -230,13 +230,13 @@ describe("GET /api/songs", () => {
 
   test("returns songs with a given tempo when tempo is a query", () => {
     return request(app)
-    .get("/api/songs?tempo=120.045")
+    .get("/api/songs?tempo=0.7")
     .expect(200)
     .then(({body: { songs }}) => {
-      const tempoSongs = cutSongs.filter(song => song.tempo === 120.045)
+      const tempoSongs = cutSongs.filter(song => normaliseTempo(Number(song.tempo)) === 0.7)
       expect(songs).toHaveLength(tempoSongs.length)
       songs.forEach( (song) => {
-        expect(song.tempo).toBe(120.045)
+        expect(song.tempo).toBe(0.7)
       })
     })
   })
@@ -274,29 +274,29 @@ describe("GET /api/songs", () => {
 
     test("returns a song with a max value for tempo", () => {
       return request(app)
-      .get("/api/songs?tempo_max=120.500")
+      .get("/api/songs?tempo_max=0.9")
       .expect(200)
       .then(({body: { songs }}) => {
-        const tempoSongs = cutSongs.filter(song => song.tempo <= 120.500)
+        const tempoSongs = cutSongs.filter(song => normaliseTempo(Number(song.tempo)) <= 0.9)
         expect(songs).toHaveLength(tempoSongs.length)
         songs.forEach( (song) => {
-          expect(song.tempo).toBeLessThanOrEqual(120.500)
+          expect(song.tempo).toBeLessThanOrEqual(0.9)
         })
       })
     })
 
     test("returns a song with a range for tempo and an artist", () => {
       return request(app)
-      .get("/api/songs?tempo_min=120.000&tempo_max=120.500&artist=Artist%20G")
+      .get("/api/songs?tempo_min=0.5&tempo_max=0.9&artist=Roy%20Orbison")
       .expect(200)
       .then(({body: { songs }}) => {
-        const tempoSongs = cutSongs.filter(song => song.tempo >= 120.000 && song.tempo <= 120.500)
-        const artistGSongs = tempoSongs.filter(song => song.artists[0] === "Artist G")
-        expect(songs).toHaveLength(artistGSongs.length)
+        const tempoSongs = cutSongs.filter(song => normaliseTempo(song.tempo) >= 0.5 && normaliseTempo(song.tempo) <= 0.9)
+        const artistSongs = tempoSongs.filter(song => song.artist === "Roy Orbison")
+        expect(songs).toHaveLength(artistSongs.length)
         songs.forEach( (song) => {
-          expect(song.tempo).toBeGreaterThanOrEqual(120.000)
-          expect(song.tempo).toBeLessThanOrEqual(120.500)
-          expect(song.artist).toBe("Artist G")
+          expect(song.tempo).toBeGreaterThanOrEqual(0.5)
+          expect(song.tempo).toBeLessThanOrEqual(0.9)
+          expect(song.artist).toBe("Roy Orbison")
         })
       })
     })
@@ -419,6 +419,7 @@ describe('PATCH /api/users/:id', ()=> {
     })
   })
 
+
   describe.only('GET /api', () => {
     test("returns all endpoints", () => {
       const endpointsPath = path.join(__dirname, '../endpoints.json');
@@ -435,3 +436,36 @@ describe('PATCH /api/users/:id', ()=> {
         });
     });
   });
+
+
+describe("/api/users/:id/ratings", () => {
+  test("get ratings for a user", () => {
+    return request(app)
+    .get("/api/users/1/ratings")
+    .expect(200)
+    .then(({body: { ratings }}) => {
+      const ratingUser = rankingData.filter(rating => rating.user_ID === 1)
+      expect(ratings).toHaveLength(ratingUser.length)
+      expect(ratings[0].user_id).toBe(1)
+    })
+
+  })
+
+  test("post a rating for a user who already has ratings", () => {
+    return request(app)
+    .post("/api/users/1/ratings")
+    .send({
+      user_id: 1,
+      song_id: 50,
+      ranking: 3
+    })
+    .expect(201)
+    .then(({body: { ratings }}) => {
+      expect(ratings[0].user_id).toBe(1)
+      expect(ratings[0].song_id).toBe(50)
+      expect(ratings[0].ranking).toBe(3)
+    })
+  })
+
+})
+

@@ -81,3 +81,15 @@ exports.patchUserWeightings = (userId, weightings) => {
         ]
     );
 };
+
+exports.fetchUserRatings = (userId) => {
+    return db.query(`SELECT * FROM rankings WHERE user_id = $1`, [userId])
+    .then(({rows}) => rows)
+
+}
+
+exports.postNewUserRatings = ({user_id, song_id, ranking}) => {
+    return db.query(`INSERT INTO rankings (user_id, song_id, ranking) VALUES ($1, $2, $3) RETURNING *`, [user_id, song_id, ranking])
+    .then(({rows}) => rows)
+}
+
