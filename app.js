@@ -1,5 +1,6 @@
 const { add } = require('lodash')
 const { getSongs } = require('./controllers/songs.controllers')
+const { getEndpoints } = require('./controllers/endpoints.controller')
 const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating } = require('./controllers/users.controllers')
 const cors = require('cors')
 
@@ -12,6 +13,8 @@ app.use(express.json())
 app.use(cors({ origin: ['http://localhost:19006', 'http://shufl-be.onrender.com', 'https://shufl-be.onrender.com'], credentials: true }))
 
 app.get('/healthcheck',(req,res,next)=>res.status(200).send({msg: 'Hello World!'}))
+
+app.get("/api", getEndpoints);
 
 app.get("/api/songs", getSongs)
 
