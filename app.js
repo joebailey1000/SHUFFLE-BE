@@ -26,7 +26,7 @@ app.patch("/api/users/:id", updateUserWeightings)
 
 app.get("/api/users/:id/ratings", getUserRatings)
 
-app.post("/api/users/:id/ratings", addNewUserRating)
+app.post("/api/users/ratings", addNewUserRating)
 
 
 
