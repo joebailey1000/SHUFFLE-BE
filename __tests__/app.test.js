@@ -8,7 +8,6 @@ const { userData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
 const { normaliseDate, normaliseTempo } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
-console.log(cutSongs)
 
 
 beforeEach( async ()=> {
@@ -304,3 +303,110 @@ describe("GET /api/songs", () => {
 
 
 
+  describe('GET /api/users',()=>{
+    test('returns 200', ()=> {
+      return request(app)
+        .get('/api/users')
+        .expect(200)
+    })
+    test('returns an array of users', ()=> {
+      return request(app)
+        .get('/api/users')
+        .then(({body}) => {
+          expect(body.users).toHaveLength(8)
+        })
+    })
+  })
+
+  describe('POST /api/users', ()=> {
+    test('returns 201 and the new user', ()=> {
+      return request(app)
+      .post('/api/users')
+      .send({
+        username: 'Big John',
+        popularity_weighting: 0.9,
+        danceability_weighting: 1,
+        energy_weighting: 1.1,
+        acousticness_weighting: 0.7,
+        instrumentalness_weighting: 1.3,
+        liveness_weighting: 0.9,
+        valence_weighting: 0.8,
+        tempo_weighting: 1.2
+      })
+      .then((res) => {
+        expect(res.status).toBe(201)
+        expect(res.body).toMatchObject({
+          users: {
+            user_id: 9,
+            username: 'Big John',
+            popularity_weighting: 0.9,
+            danceability_weighting: 1,
+            energy_weighting: 1.1,
+            acousticness_weighting: 0.7,
+            instrumentalness_weighting: 1.3,
+            liveness_weighting: 0.9,
+            valence_weighting: 0.8,
+            tempo_weighting: 1.2
+          }
+        })
+      })
+    })
+  })
+
+  describe.only('PATCH /api/users/:id', ()=> {
+    test('returns 201 and the updated user', ()=> {
+      return request(app)
+      .patch('/api/users/1')
+      .send({
+        popularity_weighting: 0.1,
+        danceability_weighting: 0.1,
+        energy_weighting: 0.1,
+        acousticness_weighting: 0.1,
+        instrumentalness_weighting: 0.1,
+        liveness_weighting: 0.1,
+        valence_weighting: 0.1,
+        tempo_weighting: 0.1
+      })
+      .then((res) => {
+        expect(res.status).toBe(200)
+        expect(res.body).toMatchObject(
+          {
+            user_id: 1,
+            username: 'Rob',
+            popularity_weighting: 1.1,
+            danceability_weighting: 1.1,
+            energy_weighting: 1.1,
+            acousticness_weighting: 1.1,
+            instrumentalness_weighting: 1.1,
+            liveness_weighting: 1.1,
+            valence_weighting: 1.1,
+            tempo_weighting: 1.1
+          }
+        )
+      })
+    })
+    test('returns 201 and updated user when only one field is updated', ()=> {
+      return request(app)
+      .patch('/api/users/1')
+      .send({
+        popularity_weighting: 1
+      })
+      .then((res) => {
+        expect(res.status).toBe(200)
+        expect(res.body).toMatchObject(
+          {
+            user_id: 1,
+            username: 'Rob',
+            popularity_weighting: 2,
+            danceability_weighting: 1,
+            energy_weighting: 1,
+            acousticness_weighting: 1,
+            instrumentalness_weighting: 1,
+            liveness_weighting: 1,
+            valence_weighting: 1,
+            tempo_weighting: 1
+          }
+        )
+      })
+    })
+  })
