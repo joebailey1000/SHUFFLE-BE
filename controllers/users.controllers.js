@@ -1,5 +1,5 @@
 const { escapeRegExp } = require('lodash')
-const { fetchUsers, postNewUser, patchUserWeightings } = require('../models/users.models')
+const { fetchUsers, postNewUser, patchUserWeightings, fetchUserRatings, postNewUserRatings } = require('../models/users.models')
 
 exports.getUsers = (req, res, next) => {
    const {username} = req.query
@@ -66,3 +66,13 @@ exports.updateUserWeightings = (req, res, next) => {
         })
         .catch(next);
 };
+
+exports.getUserRatings = (req, res, next) => {
+    fetchUserRatings(req.params.id).then((data) => {
+        res.status(200).send({ratings: data})
+    })}
+
+exports.addNewUserRating = (req, res, next) => {
+    postNewUserRatings(req.body).then((data) => {
+        res.status(201).send({ratings: data})
+    }).catch(next)}
