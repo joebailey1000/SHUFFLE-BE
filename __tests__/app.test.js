@@ -301,9 +301,7 @@ describe("GET /api/songs", () => {
   })
     
 
-
-
-  describe('GET /api/users',()=>{
+  describe.only('GET /api/users',()=>{
     test('returns 200', ()=> {
       return request(app)
         .get('/api/users')
@@ -314,6 +312,14 @@ describe("GET /api/songs", () => {
         .get('/api/users')
         .then(({body}) => {
           expect(body.users).toHaveLength(8)
+        })
+    })
+    test('returns a user when given username as query', ()=> {
+      return request(app)
+        .get('/api/users?username=Rob')
+        .then(({body}) => {
+          expect(body.users).toHaveLength(1)
+          console.log(body.users)
         })
     })
   })
@@ -353,7 +359,7 @@ describe("GET /api/songs", () => {
     })
   })
 
-  describe.only('PATCH /api/users/:id', ()=> {
+  describe('PATCH /api/users/:id', ()=> {
     test('returns 201 and the updated user', ()=> {
       return request(app)
       .patch('/api/users/1')
