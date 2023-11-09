@@ -1,5 +1,5 @@
 const { escapeRegExp } = require('lodash')
-const { fetchUsers, postNewUser } = require('../models/users.models')
+const { fetchUsers, postNewUser, patchUserWeightings } = require('../models/users.models')
 
 exports.getUsers = (req, res, next) => {
     return fetchUsers().then((users) => {
@@ -32,6 +32,36 @@ exports.addNewUser = (req, res, next) => {
             .catch(next)
 };
 
-exports.updateUserInfo = (req, res, next) => {
-    
-}
+exports.updateUserWeightings = (req, res, next) => {
+    const userId = req.params.id;
+    const {
+        popularity_weighting,
+        danceability_weighting,
+        energy_weighting,
+        acousticness_weighting,
+        instrumentalness_weighting,
+        liveness_weighting,
+        valence_weighting,
+        tempo_weighting
+    } = req.body;
+
+    const weightingsToUpdate = {
+        popularity_weighting: popularity_weighting || 0,
+        danceability_weighting: danceability_weighting || 0,
+        energy_weighting: energy_weighting || 0,
+        acousticness_weighting: acousticness_weighting || 0,
+        instrumentalness_weighting: instrumentalness_weighting || 0,
+        liveness_weighting: liveness_weighting || 0,
+        valence_weighting: valence_weighting || 0,
+        tempo_weighting: tempo_weighting || 0
+    };
+    patchUserWeightings(userId, weightingsToUpdate)
+        .then((user) => {
+            if (!user) {
+                return Promise.reject({ status: 404, msg: "user not found" });
+            }
+            const returnedUser = user.rows;
+            res.status(200).send(returnedUser[0]);
+        })
+        .catch(next);
+};

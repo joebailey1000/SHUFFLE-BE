@@ -1,6 +1,6 @@
 const { add } = require('lodash')
 const { getSongs } = require('./controllers/songs.controllers')
-const { getUsers, addNewUser } = require('./controllers/users.controllers')
+const { getUsers, addNewUser, updateUserWeightings } = require('./controllers/users.controllers')
 const cors = require('cors')
 
 const express=require('express')
@@ -18,6 +18,8 @@ app.get("/api/songs", getSongs)
 app.get("/api/users", getUsers)
 
 app.post("/api/users", addNewUser)
+
+app.patch("/api/users/:id", updateUserWeightings)
 
 app.use((err,req,res,next)=>{
   console.error(err)

@@ -23,7 +23,6 @@ const getTrackInfo = (testData) => {
     
     const title = songQuery.title
     const artist = songQuery.artist
-    console.log(songQuery)
     const query = `${title} ${artist}`;
 
     return deezApi.get('/search', {
