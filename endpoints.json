@@ -194,7 +194,7 @@
                 "valence_weighting": 1.1,
                 "tempo_weighting": 1.1
               }
-
+    },
     "GET /api/users/:id/ratings": {
         "description": "returns the ratings for a user",
         "queries": [],
@@ -236,4 +236,4 @@
             }
         }
     }
-
+}
