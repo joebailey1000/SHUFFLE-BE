@@ -32,7 +32,9 @@ with open(cur_path+'/../local_data/networkInput.json','r+') as network_input:
 
     records = cur.fetchall()
 
-    weights_json = {keys[i]:records[0][i] for i in range(10)}
+    weights_json = {'hiddenWeights':[records[0][i+2].split(',') for i in range(8)],'outputWeights':records[0][-1].split(',')}
+
+    print(weights_json)
 
     cur.execute(f'SELECT * FROM songs WHERE song_id = {network_input["song_id"]}')
 
@@ -62,6 +64,8 @@ with open(cur_path+'/../local_data/networkInput.json','r+') as network_input:
     
     current_song_json = {keys[i]:records[0][i] for i in range(19)}
 
+    print(current_song_json)
+
     cur.execute(f'SELECT * FROM rankings INNER JOIN songs ON rankings.song_id = songs.song_id WHERE rankings.user_id = {network_input["user_id"]}')
 
     records = cur.fetchall()
@@ -71,5 +75,6 @@ with open(cur_path+'/../local_data/networkInput.json','r+') as network_input:
     previous_songs_json = {'songs': [{keys[i]:records[j][i+4] for i in range(19)} for j in range(len(records))], 'ratings': [i[3] for i in records]}
 
     print(previous_songs_json)
+
 
 
