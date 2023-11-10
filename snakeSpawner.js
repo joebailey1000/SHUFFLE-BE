@@ -25,22 +25,7 @@ function spawnSnake() {
 }
 
 function executeNetwork({user_id, song_id, ranking}){
-    db.query('DROP TABLE IF EXISTS network_input;')
-    .then(()=> {
-      db.query(`
-      CREATE TABLE network_input (
-        user_id INTEGER REFERENCES users(user_id),
-        song_id INTEGER REFERENCES songs(song_id),
-        ranking INTEGER NOT NULL
-      );
-      `)
-    })
-    .then(()=> {
-      db.query(`
-      INSERT INTO network_input (
-        user_id, song_id, ranking
-      ) VALUES ($1, $2, $3)`, [user_id, song_id, ranking])
-    })
+    fs.writeFile(`${__dirname}/local_data/networkInput.json`, JSON.stringify({user_id, song_id, ranking}))
     .then(()=> spawnSnake())
 }
 

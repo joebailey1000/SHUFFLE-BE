@@ -1,7 +1,7 @@
 const { readFileSync } = require('fs')
 const seed = require('./db/seeds/seed')
 const fs = require('fs')
-const {spawnSnake} = require('./snakeSpawner')
+const {spawnSnake, executeNetwork} = require('./snakeSpawner')
 
 
-spawnSnake();
+return executeNetwork({"user_id": 1, "song_id": 96, "ranking": 4});
