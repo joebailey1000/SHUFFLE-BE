@@ -1,6 +1,5 @@
 const { execFile, spawn } = require('child_process')
 const fs = require('fs/promises')
-const { dirname } = require('node:path');
 const db = require('./db/connection.js')
 
 const subprocess = spawn('bad_command');
