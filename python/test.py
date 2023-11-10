@@ -4,7 +4,7 @@ connect = psycopg2.connect("postgres://qficvrjz:xgzayMFH1uUCEE-xAVxmnlxcRkDQcdaT
 
 cur = connect.cursor()
 
-cur.execute("SELECT * FROM songs")
+cur.execute("SELECT * FROM network_input")
 
 records = cur.fetchall()
 
