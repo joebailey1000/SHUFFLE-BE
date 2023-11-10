@@ -1,6 +1,5 @@
 const { Pool } = require('pg');
 
-console.log(process.env.NODE_ENV)
 
 const ENV = process.env.NODE_ENV || 'test'
 
@@ -21,6 +20,5 @@ if (process.env.NODE_ENV === 'production') {
   config.max = 2
 }
 
-console.log(config, "config")
 
 module.exports = new Pool(config);
