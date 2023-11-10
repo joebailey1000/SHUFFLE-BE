@@ -61,6 +61,7 @@ with open(cur_path+'/../local_data/weights.json','r+') as weights, \
     current_rating_value=json.loads(line)['rating']
 
   keys = [
+    'popularity',
     'danceability',
     'energy',
     'speechiness',
@@ -120,6 +121,7 @@ print(end_time-start_time)
       current_rating_value=json.loads(line)['rating']
 
     keys = [
+      'popularity',
       'danceability',
       'energy',
       'speechiness',
