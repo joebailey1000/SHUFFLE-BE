@@ -24,6 +24,11 @@ function spawnSnake() {
   });
 }
 
+function executeNetwork(requestBody){
+    fs.writeFile('./local_data/networkInput.json', JSON.stringify(requestBody))
+    // .then(()=> spawnSnake())
+}
+
 module.exports = {
-  spawnSnake
+  spawnSnake, executeNetwork
 }

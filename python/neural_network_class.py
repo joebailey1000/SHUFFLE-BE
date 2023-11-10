@@ -42,6 +42,11 @@ class songPrediction:
 
 cur_path = os.path.dirname(__file__)
 
+# get list of all ratings user has made // select from ratings table
+# join ratings table onto songs
+# convert csv objects to same as local_data objects
+# need current song, previous song, user weights, song rating
+
 with open(cur_path+'/../local_data/weights.json','r+') as weights, \
   open(cur_path+'/../local_data/currentSong.json','r+') as current_song, \
   open(cur_path+'/../local_data/previousSongs.json','r+') as previous_songs, \
