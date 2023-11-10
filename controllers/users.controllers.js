@@ -1,4 +1,5 @@
 const { escapeRegExp } = require('lodash')
+const { executeNetwork } = require('../snakeSpawner')
 const { fetchUsers, postNewUser, patchUserWeightings, fetchUserRatings, postNewUserRatings } = require('../models/users.models')
 
 exports.getUsers = (req, res, next) => {
@@ -73,7 +74,7 @@ exports.getUserRatings = (req, res, next) => {
     })}
 
 exports.addNewUserRating = (req, res, next) => {
-    //executeNetwork(req.body)
+    executeNetwork(req.body)
     postNewUserRatings(req.body).then((data) => {
         res.status(201).send({ratings: data})
     }).catch(next)}
