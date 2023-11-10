@@ -420,7 +420,7 @@ describe('PATCH /api/users/:id', ()=> {
   })
 
 
-  describe.only('GET /api', () => {
+  describe('GET /api', () => {
     test("returns all endpoints", () => {
       const endpointsPath = path.join(__dirname, '../endpoints.json');
       return fs.promises.readFile(endpointsPath, 'utf8')
@@ -453,7 +453,7 @@ describe("/api/users/:id/ratings", () => {
 
   test("post a rating for a user who already has ratings", () => {
     return request(app)
-    .post("/api/users/1/ratings")
+    .post("/api/users/ratings")
     .send({
       user_id: 1,
       song_id: 50,

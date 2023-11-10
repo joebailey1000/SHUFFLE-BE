@@ -87,7 +87,7 @@ const seed = (songData, userData, rankingData) => {
         const FormattedUserData = userData.map((user) => {
             return [
                 user.username,
-                ...[...Array(9)].map(()=> {[...Array(3)].map(()=> {Math.random}).join(',')})
+                ...[...Array(9)].map(()=> [...Array(3)].map(()=> Math.random()).join(','))
             ]
         })
         const queryString = format(`INSERT INTO users (username, popularity_weightings, danceability_weightings, energy_weightings, acousticness_weightings, instrumentalness_weightings, liveness_weightings, valence_weightings, tempo_weightings, output_weightings) VALUES %L RETURNING *;`, FormattedUserData)
