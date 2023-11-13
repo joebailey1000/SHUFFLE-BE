@@ -1,12 +1,8 @@
 const { add } = require('lodash')
 const { getSongs } = require('./controllers/songs.controllers')
 const { getEndpoints } = require('./controllers/endpoints.controller')
-<<<<<<< HEAD
 const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating, getSongByNetworkRating } = require('./controllers/users.controllers')
-=======
-const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating } = require('./controllers/users.controllers')
 const { handleErrors } = require('./controllers/errors.controllers')
->>>>>>> f6532a658b0df118868a299aacdcf6f289dae137
 const cors = require('cors')
 
 const express=require('express')
