@@ -5,20 +5,20 @@ const {
 const fs = require('fs');
 const path = require('path');
 const seed = require('../db/seeds/seed')
-const mergedSongs = require('../db/data/development/mergedSongs')
+// const mergedSongs = require('../db/data/development/mergedSongs')
 const { userData, rankingData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
 const { normaliseDate, normaliseTempo } = require('../db/utils')
-const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
+// const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
 
 
-beforeEach( async ()=> {
-  await seed(cutSongs, userData, rankingData)
-})
+// beforeEach( async ()=> {
+//   await seed(cutSongs, userData, rankingData)
+// })
 
-afterAll(()=>{
-  db.end()
-})
+// afterAll(()=>{
+//   db.end()
+// })
 
 describe('GET /healthcheck',()=>{
   test('returns 200',()=>{
@@ -469,3 +469,10 @@ describe("/api/users/:id/ratings", () => {
 
 })
 
+describe.only('GET /api/users/:id/recs',()=>{
+  test('selects ten random songs, then returns the one highest rated by the network',()=>{
+    return request(app)
+      .get('/api/users/3/recs')
+      .expect(200)
+  })
+})

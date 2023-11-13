@@ -1,7 +1,7 @@
 const { add } = require('lodash')
 const { getSongs } = require('./controllers/songs.controllers')
 const { getEndpoints } = require('./controllers/endpoints.controller')
-const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating } = require('./controllers/users.controllers')
+const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating, getSongByNetworkRating } = require('./controllers/users.controllers')
 const cors = require('cors')
 
 const express=require('express')
@@ -27,6 +27,8 @@ app.patch("/api/users/:id", updateUserWeightings)
 app.get("/api/users/:id/ratings", getUserRatings)
 
 app.post("/api/users/ratings", addNewUserRating)
+
+app.get("/api/users/:id/recs", getSongByNetworkRating)
 
 
 

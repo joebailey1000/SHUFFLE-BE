@@ -5,14 +5,15 @@ const db = require('./db/connection.js')
 const subprocess = spawn('bad_command');
 
 subprocess.on('error', (err) => {
-  console.error(err);
+  console.log(err);
 });
 
-function spawnSnake(networkInput) {
-  const python3 = spawn('python3', [`${__dirname}/python/neural_network_class.py`, JSON.stringify(networkInput)])
+async function spawnSnake(networkInput, updateWeights) {
+  const python3 = spawn('python3', [`${__dirname}/python/neural_network_class.py`, JSON.stringify(networkInput), updateWeights])
 
   python3.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    console.log('stdout:'+data)
+    return data;
   });
 
   python3.stderr.on('data', (data) => {
@@ -22,13 +23,10 @@ function spawnSnake(networkInput) {
   python3.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
-}
 
-function executeNetwork({user_id, song_id, ranking}){
-  fs.writeFile(`${__dirname}/local_data/networkInput.json`, JSON.stringify({user_id, song_id, ranking}))
-    .then(()=> spawnSnake({user_id, song_id, ranking}))
+  
 }
 
 module.exports = {
-  spawnSnake, executeNetwork
+  spawnSnake
 }

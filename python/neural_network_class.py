@@ -51,7 +51,7 @@ cur_path = os.path.dirname(__file__)
 
 network_input=json.loads(sys.argv[1])
 
-print(network_input)
+update_weights=json.loads(sys.argv[2])
 
 keys = [
   'user_id',
@@ -159,11 +159,14 @@ if len(previous_songs_json['songs'])>4:
   cur.execute(f'UPDATE users SET popularity_weightings = \'{weights_json["hiddenWeights"][0]}\', danceability_weightings =\'{weights_json["hiddenWeights"][1]}\', energy_weightings = \'{weights_json["hiddenWeights"][2]}\', acousticness_weightings = \'{weights_json["hiddenWeights"][3]}\', instrumentalness_weightings = \'{weights_json["hiddenWeights"][4]}\', liveness_weightings = \'{weights_json["hiddenWeights"][5]}\', valence_weightings = \'{weights_json["hiddenWeights"][6]}\', tempo_weightings = \'{weights_json["hiddenWeights"][7]}\', output_weightings = \'{weights_json["outputWeights"]}\' WHERE user_id = {network_input["user_id"]} RETURNING *' )
 
   records = cur.fetchall()
-  
+
   print(network_guess)
 
-  connect.commit()
+  if update_weights:
+    connect.commit()
   connect.close()
+
+  
 
 
 
