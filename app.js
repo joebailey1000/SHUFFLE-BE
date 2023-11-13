@@ -2,6 +2,7 @@ const { add } = require('lodash')
 const { getSongs } = require('./controllers/songs.controllers')
 const { getEndpoints } = require('./controllers/endpoints.controller')
 const { getUsers, addNewUser, updateUserWeightings, getUserRatings, addNewUserRating } = require('./controllers/users.controllers')
+const { handleErrors } = require('./controllers/errors.controllers')
 const cors = require('cors')
 
 const express=require('express')
@@ -28,12 +29,7 @@ app.get("/api/users/:id/ratings", getUserRatings)
 
 app.post("/api/users/ratings", addNewUserRating)
 
-
-
-app.use((err,req,res,next)=>{
-  console.error(err)
-  res.status(500).send({msg:'woof'})
-})
+app.use((err,req,res,next)=>handleErrors(err, req, res, next))
 
 module.exports={
   app

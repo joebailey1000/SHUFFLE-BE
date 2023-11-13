@@ -42,8 +42,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?title=afcfetgsagsr")
     .expect(404)
     .then(({body})=>
-    
-    expect(body).toEqual({error: "Not found, try another artist or song" }))
+    expect(body).toEqual({msg: "Not found, try another artist or song" }))
   })
  
 
@@ -341,6 +340,14 @@ describe("GET /api/songs", () => {
           expect(body.users).toHaveLength(1)
           console.log(body.users)
         })
+    })
+
+    test.only("returns a 404 when user not found", () => {
+      return request(app)
+      .get("/api/users?username=afcfetgsagsr")
+      .expect(404)
+      .then(({body})=>
+      expect(body).toEqual({msg: "No user found :(" }))
     })
   })
 
