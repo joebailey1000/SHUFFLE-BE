@@ -1,6 +1,6 @@
-const { execFile, spawn } = require('node:child_process')
+const { execFile, spawn } = require('child_process')
 const fs = require('fs/promises')
-const { dirname } = require('node:path');
+const db = require('./db/connection.js')
 
 const subprocess = spawn('bad_command');
 
@@ -8,8 +8,8 @@ subprocess.on('error', (err) => {
   console.error(err);
 });
 
-function spawnSnake() {
-  const python3 = spawn('python3', [`${__dirname}/python/neural_network_class.py`])
+function spawnSnake(networkInput) {
+  const python3 = spawn('python3', [`${__dirname}/python/neural_network_class.py`, JSON.stringify(networkInput)])
 
   python3.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);
@@ -24,6 +24,11 @@ function spawnSnake() {
   });
 }
 
+function executeNetwork({user_id, song_id, ranking}){
+  fs.writeFile(`${__dirname}/local_data/networkInput.json`, JSON.stringify({user_id, song_id, ranking}))
+    .then(()=> spawnSnake({user_id, song_id, ranking}))
+}
+
 module.exports = {
-  spawnSnake
+  spawnSnake, executeNetwork
 }

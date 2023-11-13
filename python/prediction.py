@@ -50,31 +50,33 @@ new_song2 = [0.3, 0.8, 0.5, 0.8]
 new_song2_rating = 7
 
 scores = list(a for a in zip(*songs_matrix3))
+print(scores, "SCORES")
 prediction = songPrediction(scores, new_song2, user_likes2)
+print(prediction.scores_table)
 
-# print(prediction.expected_ratings)
+# # print(prediction.expected_ratings)
 
-input_vector = prediction.expected_ratings
+# input_vector = prediction.expected_ratings
 
-weights = np.random.rand(len(input_vector),)
-
-
-def make_prediction(input):
-    return np.dot(input, weights)
+# weights = np.random.rand(len(input_vector),)
 
 
+# def make_prediction(input):
+#     return np.dot(input, weights)
 
 
-for i in range(10):
-    # print(f'weights: {weights}')
 
-    # print(f'prediction: {make_prediction(input_vector)}')
-    mse = np.square(make_prediction(input_vector) - new_song2_rating)
 
-    # print(f'error:{mse}')
+# for i in range(10):
+#     # print(f'weights: {weights}')
 
-    derivative = 2 * (make_prediction(input_vector) - new_song2_rating)
+#     # print(f'prediction: {make_prediction(input_vector)}')
+#     mse = np.square(make_prediction(input_vector) - new_song2_rating)
 
-    # print(derivative)
-    weights += -derivative / 30
+#     # print(f'error:{mse}')
+
+#     derivative = 2 * (make_prediction(input_vector) - new_song2_rating)
+
+#     # print(derivative)
+#     weights += -derivative / 30
 

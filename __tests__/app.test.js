@@ -2,16 +2,18 @@ const request=require('supertest')
 const {
   app
 }=require('../app.js')
+const fs = require('fs');
+const path = require('path');
 const seed = require('../db/seeds/seed')
 const mergedSongs = require('../db/data/development/mergedSongs')
-const { userData } = require('../db/data/test/readAndParse.js')
+const { userData, rankingData } = require('../db/data/test/readAndParse.js')
 const db = require('../db/connection.js')
 const { normaliseDate, normaliseTempo } = require('../db/utils')
 const cutSongs = mergedSongs.slice(0, 100)  // 100 songs only for testing
 
 
 beforeEach( async ()=> {
-  await seed(cutSongs, userData)
+  await seed(cutSongs, userData, rankingData)
 })
 
 afterAll(()=>{
@@ -342,7 +344,7 @@ describe("GET /api/songs", () => {
     })
   })
 
-  describe('POST /api/users', ()=> {
+describe('POST /api/users', ()=> {
     test('returns 201 and the new user', ()=> {
       return request(app)
       .post('/api/users')
@@ -377,7 +379,7 @@ describe("GET /api/songs", () => {
     })
   })
 
-  describe('PATCH /api/users/:id', ()=> {
+describe('PATCH /api/users/:id', ()=> {
     test('returns 201 and the updated user', ()=> {
       return request(app)
       .patch('/api/users/1')
@@ -434,3 +436,54 @@ describe("GET /api/songs", () => {
       })
     })
   })
+
+
+  describe('GET /api', () => {
+    test("returns all endpoints", () => {
+      const endpointsPath = path.join(__dirname, '../endpoints.json');
+      return fs.promises.readFile(endpointsPath, 'utf8')
+        .then((expectedEndpoints) => {
+          return request(app)
+            .get("/api")
+            .expect(200)
+            .then((res) => {
+              const actualEndpoints = res.body;
+              console.log(expectedEndpoints)
+              expect(actualEndpoints.endpoints).toEqual(JSON.parse(expectedEndpoints));
+            });
+        });
+    });
+  });
+
+
+describe("/api/users/:id/ratings", () => {
+  test("get ratings for a user", () => {
+    return request(app)
+    .get("/api/users/1/ratings")
+    .expect(200)
+    .then(({body: { ratings }}) => {
+      const ratingUser = rankingData.filter(rating => rating.user_ID === 1)
+      expect(ratings).toHaveLength(ratingUser.length)
+      expect(ratings[0].user_id).toBe(1)
+    })
+
+  })
+
+  test("post a rating for a user who already has ratings", () => {
+    return request(app)
+    .post("/api/users/ratings")
+    .send({
+      user_id: 1,
+      song_id: 50,
+      ranking: 3
+    })
+    .expect(201)
+    .then(({body: { ratings }}) => {
+      expect(ratings[0].user_id).toBe(1)
+      expect(ratings[0].song_id).toBe(50)
+      expect(ratings[0].ranking).toBe(3)
+    })
+  })
+
+})
+

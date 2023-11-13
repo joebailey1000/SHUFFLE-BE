@@ -1,8 +1,9 @@
 import os
 import json
+import psycopg2
 import numpy as np
 from math import sqrt
-from prediction import songPrediction
+import sys
 
 class songPrediction:
 
@@ -17,7 +18,6 @@ class songPrediction:
 
     def count_up(self):
         table = []
-        print(len(self.scores))
         for i in enumerate(self.scores):
             table.append([])
             for j in enumerate(i[1]):
@@ -39,75 +39,131 @@ class songPrediction:
     def calculate_expected_ratings(self):
         return np.array([min(10,self.normal_distribution(self.means[i[0]], self.stdevs[i[0]], i[1])/(self.stdevs[i[0]]*sqrt(2*np.pi))) for i in enumerate(self.new_song)])
 
+
+# get list of all ratings user has made // select from ratings table
+# join ratings table onto songs
+# convert csv objects to same as local_data objects
+# need current song, previous song, user weights, song rating
+
+
+
 cur_path = os.path.dirname(__file__)
 
-with open(cur_path+'/../local_data/weights.json','r+') as weights, \
-  open(cur_path+'/../local_data/currentSong.json','r+') as current_song, \
-  open(cur_path+'/../local_data/previousSongs.json','r+') as previous_songs, \
-  open(cur_path+'/../local_data/currRating.json','r+') as current_rating:
-  for line in weights:
-    weights_json=json.loads(line)
-  for line in current_song:
-    current_song_json=json.loads(line)
-  for line in previous_songs:
-    previous_songs_json=json.loads(line)
-  for line in current_rating:
-    current_rating_value=json.loads(line)['rating']
+network_input=json.loads(sys.argv[1])
 
-  keys = [
-    'danceability',
-    'energy',
-    'speechiness',
-    'acousticness',
-    'instrumentalness',
-    'liveness',
-    'valence'
+print(network_input)
+
+keys = [
+  'user_id',
+  'username',
+  'popularity',
+  'danceability',
+  'energy',
+  'speechiness',
+  'acousticness',
+  'instrumentalness',
+  'liveness',
+  'valence'
   ]
 
+connect = psycopg2.connect("postgres://qficvrjz:xgzayMFH1uUCEE-xAVxmnlxcRkDQcdaT@flora.db.elephantsql.com/qficvrjz")
 
-  if len(previous_songs_json['songs'])>5:
-    songs_matrix=tuple(tuple(
-      song[key] for key in keys
-    ) for song in previous_songs_json['songs'])
-    
-    user_likes=previous_songs_json['ratings']
+cur = connect.cursor()
 
-    scores = list(a for a in zip(*songs_matrix))
+cur.execute(f'SELECT * FROM users WHERE user_id = {network_input["user_id"]}')
 
-    current_song_arr=[
-       current_song_json[key] for key in keys
-    ]
-    prediction = songPrediction(scores, list(current_song_arr), user_likes)
+records = cur.fetchall()
 
-    input_vector = prediction.calculate_expected_ratings()
+weights_json = {'hiddenWeights':[[float(x) for x in records[0][i+2].split(',')] for i in range(8)],'outputWeights':[float(x) for x in records[0][-1].split(',')]}
 
-    hidden_outputs=[np.dot(input_vector,[i[j] for i in weights_json['hiddenWeights']]) for j in range(3)]
+cur.execute(f'SELECT * FROM songs WHERE song_id = {network_input["song_id"]}')
 
-    network_guess=np.dot(hidden_outputs,weights_json['outputWeights'])
+records = cur.fetchall()
 
-    print(network_guess)
+keys = [
+  'song_id',
+  'spotify_id',
+  'deezer_id',
+  'title',
+  'artist',
+  'modernity',
+  'popularity',
+  'danceability',
+  'energy',
+  'loudness',
+  'acousticness',
+  'instrumentalness',
+  'liveness',
+  'valence',
+  'tempo',
+  'preview',
+  'album',
+  'link',
+  'albumcover'
+]
+  
+current_song_json = {keys[i]:records[0][i] for i in range(19)}
 
-    output_error=network_guess-float(current_rating_value)
-    print(output_error)
-    hidden_errors = [
-       -(float(current_rating_value)-hidden_outputs[i-1]*weights_json['outputWeights'][i-1]-hidden_outputs[i-2]*weights_json['outputWeights'][i-2])/(10*weights_json['outputWeights'][i]) for i in range(3)
-    ]
-    print(hidden_errors)
-    hidden_weights_json=[[j[i]-hidden_errors[i]/100 for i in range(3)] for j in weights_json['hiddenWeights']]
-    output_weights_json=[i-output_error/100 for i in weights_json['outputWeights']]
+cur.execute(f'SELECT * FROM rankings INNER JOIN songs ON rankings.song_id = songs.song_id WHERE rankings.user_id = {network_input["user_id"]}')
 
-    weights_json={'hiddenWeights':hidden_weights_json,'outputWeights':output_weights_json}
+records = cur.fetchall()
+  
+records.append(records[0])
+  
+previous_songs_json = {'songs': [{keys[i]:records[j][i+4] for i in range(19)} for j in range(len(records))], 'ratings': [i[3] for i in records]}
 
-  previous_songs_json['songs'].append(current_song_json)
-  previous_songs_json['ratings'].append(current_rating_value)
+keys = [
+  'popularity',
+  'danceability',
+  'energy',
+  'tempo',
+  'acousticness',
+  'instrumentalness',
+  'liveness',
+  'valence'
+]
 
-  os.remove(cur_path+'/../local_data/previousSongs.json')
-  f = open(cur_path+'/../local_data/previousSongs.json', "w")
-  f.write(json.dumps(previous_songs_json))
-  f.close()
+if len(previous_songs_json['songs'])>4:
+  songs_matrix=tuple(tuple(
+    song[key] for key in keys
+  ) for song in previous_songs_json['songs'])
 
-  os.remove(cur_path+'/../local_data/weights.json')
-  f = open(cur_path+'/../local_data/weights.json', "w")
-  f.write(json.dumps(weights_json))
+  current_rating_value=network_input['ranking']
+  
+  user_likes=previous_songs_json['ratings']
+
+  scores = list(a for a in zip(*songs_matrix))
+
+  current_song_arr=[
+    current_song_json[key] for key in keys
+  ]
+
+  prediction = songPrediction(scores, list(current_song_arr), user_likes)
+
+  input_vector = prediction.calculate_expected_ratings()
+
+  hidden_outputs=[np.dot(input_vector,[i[j] for i in weights_json['hiddenWeights']]) for j in range(3)]
+
+  network_guess=np.dot(hidden_outputs,weights_json['outputWeights'])
+
+  output_error=network_guess-float(current_rating_value)
+  hidden_errors = [
+      -(float(current_rating_value)-hidden_outputs[i-1]*weights_json['outputWeights'][i-1]-hidden_outputs[i-2]*weights_json['outputWeights'][i-2])/(10*weights_json['outputWeights'][i]) for i in range(3)
+  ]
+  hidden_weights_json=[','.join([str(j[i]-hidden_errors[i]/100) for i in range(3)]) for j in weights_json['hiddenWeights']]
+  output_weights_json=','.join([str(i-output_error/100) for i in weights_json['outputWeights']])
+
+  weights_json={'hiddenWeights':hidden_weights_json,'outputWeights':output_weights_json}
+
+
+  cur.execute(f'UPDATE users SET popularity_weightings = \'{weights_json["hiddenWeights"][0]}\', danceability_weightings =\'{weights_json["hiddenWeights"][1]}\', energy_weightings = \'{weights_json["hiddenWeights"][2]}\', acousticness_weightings = \'{weights_json["hiddenWeights"][3]}\', instrumentalness_weightings = \'{weights_json["hiddenWeights"][4]}\', liveness_weightings = \'{weights_json["hiddenWeights"][5]}\', valence_weightings = \'{weights_json["hiddenWeights"][6]}\', tempo_weightings = \'{weights_json["hiddenWeights"][7]}\', output_weightings = \'{weights_json["outputWeights"]}\' WHERE user_id = {network_input["user_id"]} RETURNING *' )
+
+  records = cur.fetchall()
+  
+  print(network_guess)
+
+  connect.commit()
+  connect.close()
+
 
 

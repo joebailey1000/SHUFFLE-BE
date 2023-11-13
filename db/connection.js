@@ -20,5 +20,4 @@ if (process.env.NODE_ENV === 'production') {
   config.max = 2
 }
 
-
 module.exports = new Pool(config);

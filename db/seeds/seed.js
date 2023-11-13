@@ -3,7 +3,7 @@ const db = require('../connection')
 const { normaliseDate, normaliseTempo } = require('../utils')
 
 
-const seed = (songData, userData) => {
+const seed = (songData, userData, rankingData) => {
     return db.query(`DROP TABLE IF EXISTS rankings;`)
     .then(() => {
         return db.query(`DROP TABLE IF EXISTS users;`)
@@ -37,18 +37,19 @@ const seed = (songData, userData) => {
         return db.query(`CREATE TABLE users (
             user_id SERIAL PRIMARY KEY,
             username VARCHAR(255) NOT NULL,
-            popularity_weighting FLOAT NOT NULL,
-            danceability_weighting FLOAT NOT NULL,
-            energy_weighting FLOAT NOT NULL,
-            acousticness_weighting FLOAT NOT NULL,
-            instrumentalness_weighting FLOAT NOT NULL,
-            liveness_weighting FLOAT NOT NULL,
-            valence_weighting FLOAT NOT NULL,
-            tempo_weighting FLOAT NOT NULL
+            popularity_weightings VARCHAR(100) NOT NULL,
+            danceability_weightings VARCHAR(100) NOT NULL,
+            energy_weightings VARCHAR(100) NOT NULL,
+            acousticness_weightings VARCHAR(100) NOT NULL,
+            instrumentalness_weightings VARCHAR(100) NOT NULL,
+            liveness_weightings VARCHAR(100) NOT NULL,
+            valence_weightings VARCHAR(100) NOT NULL,
+            tempo_weightings VARCHAR(100) NOT NULL,
+            output_weightings VARCHAR(100) NOT NULL
         );`)})
     .then(() => {
         return db.query(`CREATE TABLE rankings (
-            ranking_id INTEGER PRIMARY KEY,
+            ranking_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id),
             song_id  INTEGER REFERENCES songs(song_id),
             ranking INTEGER NOT NULL
@@ -86,19 +87,25 @@ const seed = (songData, userData) => {
         const FormattedUserData = userData.map((user) => {
             return [
                 user.username,
-                user.popularity_weighting,
-                user.danceability_weighting,
-                user.energy_weighting,
-                user.acousticness_weighting,
-                user.instrumentalness_weighting,
-                user.liveness_weighting,
-                user.valence_weighting,
-                user.tempo_weighting
+                ...[...Array(9)].map(()=> [...Array(3)].map(()=> Math.random()).join(','))
             ]
         })
-        const queryString = format(`INSERT INTO users (username, popularity_weighting, danceability_weighting, energy_weighting, acousticness_weighting, instrumentalness_weighting, liveness_weighting, valence_weighting, tempo_weighting) VALUES %L RETURNING *;`, FormattedUserData)
+        const queryString = format(`INSERT INTO users (username, popularity_weightings, danceability_weightings, energy_weightings, acousticness_weightings, instrumentalness_weightings, liveness_weightings, valence_weightings, tempo_weightings, output_weightings) VALUES %L RETURNING *;`, FormattedUserData)
         return db.query(queryString)
     })
+    .then( () => {
+        if (!rankingData) return
+        const FormattedRankingData = rankingData.map((ranking) => {
+            return [
+                ranking.user_ID,
+                ranking.song_ID,
+                ranking.ranking
+            ]
+        })
+        const queryString = format(`INSERT INTO rankings (user_id, song_id, ranking) VALUES %L RETURNING *;`, FormattedRankingData)
+        return db.query(queryString)
+    })
+
 }
 
 module.exports = seed

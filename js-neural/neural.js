@@ -1,3 +1,5 @@
+const { performance } = require('perf_hooks')
+
 class SongPrediction {
     constructor(scores, newSong, userLikes) {
       this.likes = userLikes;
@@ -51,5 +53,12 @@ scores = [[0.5, 0.59, 0.99, 0.05, 0.72, 0.58, 0.35], [0.5, 0.51, 0.99, 0.1, 0.38
 newSong = [0.3, 0.8, 0.5, 0.8]
 userLikes = [10, 10, 1, 1, 6, 7, 9]
 
+const start = performance.now()
 
   test = new SongPrediction(scores, newSong, userLikes)
+
+
+  test.calculateExpectedRatings()
+
+const end = performance.now()  
+console.log(end - start)
