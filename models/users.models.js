@@ -23,14 +23,14 @@ exports.postNewUser = (username,
     valence_weighting,
     tempo_weighting) => {
     return db.query(`INSERT INTO users (username,
-        popularity_weighting,
-        danceability_weighting,
-        energy_weighting,
-        acousticness_weighting,
-        instrumentalness_weighting,
-        liveness_weighting,
-        valence_weighting,
-        tempo_weighting)
+        popularity_weightings,
+        danceability_weightings,
+        energy_weightings,
+        acousticness_weightings,
+        instrumentalness_weightings,
+        liveness_weightings,
+        valence_weightings,
+        tempo_weightings)
         VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9)
         RETURNING *`, [username,
             popularity_weighting,

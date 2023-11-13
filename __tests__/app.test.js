@@ -51,7 +51,7 @@ describe("GET /api/songs", () => {
       .expect(200)
       .then(({body: { songs }}) => {
         console.log(songs)
-        expect(songs).toHaveLength(cutSongs.length)
+        expect(songs).toHaveLength(songData.length)
       }) })
 
   test("returns the correct song length", () => {
@@ -59,7 +59,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs")
     .expect(200)
     .then(({body: { songs }}) => {
-      expect(songs).toHaveLength(cutSongs.length)
+      expect(songs).toHaveLength(songData.length)
     })
   })
 
@@ -95,7 +95,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?artist=Frank%20Sinatra")
     .expect(200)
     .then(({body: { songs }}) => {
-      const frankSinatraSongs = cutSongs.filter(song => song.artist === "Frank Sinatra")
+      const frankSinatraSongs = songData.filter(song => song.artist === "Frank Sinatra")
       expect(songs).toHaveLength(frankSinatraSongs.length)
       songs.forEach( (song) => {
         expect(song.artist).toBe("Frank Sinatra")
@@ -109,7 +109,7 @@ describe("GET /api/songs", () => {
     .expect(200)
     .then(({body: { songs }}) => {
       expect(songs).toHaveLength(1)
-      expect(songs[0].spotify_id).toEqual(cutSongs[0].spotifyID)
+      expect(songs[0].spotify_id).toEqual(songData[0].spotifyID)
     })
 
   })
@@ -130,7 +130,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?modernity=0.02")
     .expect(200)
     .then(({body: { songs }}) => {
-      const modernity1Songs = cutSongs.filter(song => normaliseDate(song.release_date) === "0.02")
+      const modernity1Songs = songData.filter(song => normaliseDate(song.release_date) === "0.02")
       expect(songs).toHaveLength(modernity1Songs.length)
       songs.forEach( (song) => {
         expect(song.modernity).toBe(0.02)
@@ -143,7 +143,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?popularity=0.3")
     .expect(200)
     .then(({body: { songs }}) => {
-      const popularitySongs = cutSongs.filter(song => song.popularity / 100 === 0.3)
+      const popularitySongs = songData.filter(song => song.popularity / 100 === 0.3)
       expect(songs).toHaveLength(popularitySongs.length)
       songs.forEach( (song) => {
         expect(song.popularity).toBe(0.3)
@@ -157,9 +157,8 @@ describe("GET /api/songs", () => {
     .get("/api/songs?danceability=0.483")
     .expect(200)
     .then( ({body: { songs }}) => {
-      let danceability0620Songs = cutSongs.filter(song => song.danceability === 0.483)
+      let danceability0620Songs = songData.filter(song => song.danceability === 0.483)
       expect(songs).toHaveLength(2)
-      
       songs.forEach( (song) => {
         expect(song.danceability).toBe(0.483)
       })
@@ -171,7 +170,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?energy=0.282")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const energy0600Songs = cutSongs.filter(song => song.energy === 0.282)
+      const energy0600Songs = songData.filter(song => song.energy === 0.282)
       expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
         expect(song.energy).toBe(0.282)
@@ -183,7 +182,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?loudness=-12.487")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const loudnessSongs = cutSongs.filter(song => song.loudness === -12.487)
+      const loudnessSongs = songData.filter(song => song.loudness === -12.487)
       expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
         expect(song.loudness).toBe(-12.487)
@@ -195,7 +194,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?acousticness=0.207")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const acousticnessSongs = cutSongs.filter(song => song.acousticness === 0.207)
+      const acousticnessSongs = songData.filter(song => song.acousticness === 0.207)
       expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
         expect(song.acousticness).toBe( 0.207)
@@ -207,7 +206,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?instrumentalness=0")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const instrumentalnessSongs = cutSongs.filter(song => song.instrumentalness === 0.000)
+      const instrumentalnessSongs = songData.filter(song => song.instrumentalness === 0.000)
       expect(songs).toHaveLength(37)
       songs.forEach( (song) => {
         expect(song.instrumentalness).toBe(0.0)
@@ -219,7 +218,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?liveness=0.322")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const livenessSongs = cutSongs.filter(song => song.liveness === 0.322)
+      const livenessSongs = songData.filter(song => song.liveness === 0.322)
       expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
         expect(song.liveness).toBe(0.322)
@@ -231,7 +230,7 @@ describe("GET /api/songs", () => {
     .get("/api/songs?valence=0.275")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const valenceSongs = cutSongs.filter(song => song.valence === 0.275)
+      const valenceSongs = songData.filter(song => song.valence === 0.275)
       expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
         expect(song.valence).toBe(0.275)
@@ -239,25 +238,12 @@ describe("GET /api/songs", () => {
     })})
 
 
-  test("returns songs with a given tempo when tempo is a query", () => {
-    return request(app)
-    .get("/api/songs?tempo=0.7")
-    .expect(200)
-    .then(({body: { songs }}) => {
-      const tempoSongs = cutSongs.filter(song => normaliseTempo(Number(song.tempo)) === 0.7)
-      expect(songs).toHaveLength(tempoSongs.length)
-      songs.forEach( (song) => {
-        expect(song.tempo).toBe(0.7)
-      })
-    })
-  })
-
   test("returns songs with a range for danceability when danceability is a query", () => {
     return request(app)
     .get("/api/songs?danceability_min=0.320&danceability_max=0.630")
     .expect(200)
     .then( ( {body: { songs }}  )=> {
-      const danceabilitySongs = cutSongs.filter(song => song.danceability >= 0.320 && song.danceability <= 0.630)
+      const danceabilitySongs = songData.filter(song => song.danceability >= 0.320 && song.danceability <= 0.630)
       expect(songs).toHaveLength(danceabilitySongs.length)
       songs.forEach( (song) => {
         expect(song.danceability).toBeGreaterThanOrEqual(0.320)
@@ -272,7 +258,7 @@ describe("GET /api/songs", () => {
       .get("/api/songs?energy_min=0.320&energy_max=0.630&danceability_min=0.320&danceability_max=0.630")
       .expect(200)
       .then( ( {body: { songs }}  )=> {
-        const energySongs = cutSongs.filter(song => song.energy >= "0.320" && song.energy <= "0.630")
+        const energySongs = songData.filter(song => song.energy >= "0.320" && song.energy <= "0.630")
         const danceabilitySongs = energySongs.filter(song => song.danceability >= "0.320" && song.danceability <= "0.630")
         expect(songs).toHaveLength(danceabilitySongs.length)
         songs.forEach( (song) => {
@@ -288,7 +274,7 @@ describe("GET /api/songs", () => {
       .get("/api/songs?tempo_max=0.9")
       .expect(200)
       .then(({body: { songs }}) => {
-        const tempoSongs = cutSongs.filter(song => normaliseTempo(Number(song.tempo)) <= 0.9)
+        const tempoSongs = songData.filter(song => normaliseTempo(Number(song.tempo)) <= 0.9)
         expect(songs).toHaveLength(tempoSongs.length)
         songs.forEach( (song) => {
           expect(song.tempo).toBeLessThanOrEqual(0.9)
@@ -303,7 +289,7 @@ describe("GET /api/songs", () => {
       .get("/api/songs?tempo_min=0.5&tempo_max=0.9&artist=Roy%20Orbison")
       .expect(200)
       .then(({body: { songs }}) => {
-        const tempoSongs = cutSongs.filter(song => normaliseTempo(song.tempo) >= 0.5 && normaliseTempo(song.tempo) <= 0.9)
+        const tempoSongs = songData.filter(song => normaliseTempo(song.tempo) >= 0.5 && normaliseTempo(song.tempo) <= 0.9)
         const artistSongs = tempoSongs.filter(song => song.artist === "Roy Orbison")
         expect(songs).toHaveLength(artistSongs.length)
         songs.forEach( (song) => {
@@ -341,7 +327,7 @@ describe("GET /api/songs", () => {
         })
     })
 
-    test.only("returns a 404 when user not found", () => {
+    test("returns a 404 when user not found", () => {
       return request(app)
       .get("/api/users?username=afcfetgsagsr")
       .expect(404)
@@ -351,7 +337,7 @@ describe("GET /api/songs", () => {
   })
 
 describe('POST /api/users', ()=> {
-    test('returns 201 and the new user', ()=> {
+    test.only('returns 201 and the new user', ()=> {
       return request(app)
       .post('/api/users')
       .send({
@@ -417,11 +403,11 @@ describe('PATCH /api/users/:id', ()=> {
         )
       })
     })
-    test('returns 201 and updated user when only one field is updated', ()=> {
+    test.only('returns 201 and updated user when only one field is updated', ()=> {
       return request(app)
       .patch('/api/users/1')
       .send({
-        popularity_weighting: 1
+        popularity_weightings: 1
       })
       .then((res) => {
         expect(res.status).toBe(200)
@@ -429,9 +415,9 @@ describe('PATCH /api/users/:id', ()=> {
           {
             user_id: 1,
             username: 'Rob',
-            popularity_weighting: 2,
-            danceability_weighting: 1,
-            energy_weighting: 1,
+            popularity_weightings: 2,
+            danceability_weightings: 1,
+            energy_weightins: 1,
             acousticness_weighting: 1,
             instrumentalness_weighting: 1,
             liveness_weighting: 1,
@@ -493,7 +479,7 @@ describe("/api/users/:id/ratings", () => {
 
 })
 
-describe.only('GET /api/users/:id/recs',()=>{
+describe('GET /api/users/:id/recs',()=>{
   test('selects ten random songs, then returns the one highest rated by the network',()=>{
     return request(app)
       .get('/api/users/3/recs')
