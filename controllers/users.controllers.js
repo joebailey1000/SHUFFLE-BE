@@ -84,13 +84,27 @@ exports.addNewUserRating = (req, res, next) => {
 
 exports.getSongByNetworkRating = (req, res, next) => {
   console.log(':)')
+
+  // res is a list of 5 songs (array with 5 song objects )
+  // our results is an array of 5 ratings
+  // we need an index of the highest number results/
+
+
+
+  //send back the song with that index 
   fetchSongs({ random: true, limit: 5 })
-    .then(async (res) => {
+    .then(async (songs) => {
       const results = []
       for (let i = 0; i < 5; i++) {
-         let guess= await spawnSnake({song_id:res[i].song_id, user_id:req.params.id,ranking:5},false)
+         let guess = await spawnSnake({song_id:songs[i].song_id, user_id:req.params.id,ranking:5},false, results)
+         if ( guess > 8) {
+            res.status(200).send({song:songs[i]})
+            return
+         }
          results.push(guess)
       }
-      console.log(results)
+  
+      res.status(200).send({song: songs[results.indexOf(Math.max(...results))]})
+
     })
 }
