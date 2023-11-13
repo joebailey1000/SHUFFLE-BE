@@ -36,11 +36,23 @@ describe("GET /api/songs", () => {
       .get("/api/songs")
       .expect(200)
   })
+ 
+  test("returns 404 when song not found" , () => {
+    return request(app)
+    .get("/api/songs?title=afcfetgsagsr")
+    .expect(404)
+    .then(({body})=>
+    
+    expect(body).toEqual({error: "Not found, try another artist or song" }))
+  })
+ 
+
   test("returns an array of songs", () => {
     return request(app)
       .get("/api/songs")
       .expect(200)
       .then(({body: { songs }}) => {
+        console.log(songs)
         expect(songs).toHaveLength(cutSongs.length)
       }) })
 
@@ -117,13 +129,13 @@ describe("GET /api/songs", () => {
 
   test("returns songs with a given modenity when modernity is a query", () => {
     return request(app)
-    .get("/api/songs?modernity=1.0")
+    .get("/api/songs?modernity=0.02")
     .expect(200)
     .then(({body: { songs }}) => {
-      const modernity1Songs = cutSongs.filter(song => normaliseDate(song.release_date) === "1.00")
+      const modernity1Songs = cutSongs.filter(song => normaliseDate(song.release_date) === "0.02")
       expect(songs).toHaveLength(modernity1Songs.length)
       songs.forEach( (song) => {
-        expect(song.modernity).toBe(1.00)
+        expect(song.modernity).toBe(0.02)
       })
     })
   })
@@ -144,86 +156,87 @@ describe("GET /api/songs", () => {
 
   test("returns songs with a given danceability when danceability is a query", () => {
     return request(app)
-    .get("/api/songs?danceability=0.620")
+    .get("/api/songs?danceability=0.483")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const danceability0620Songs = cutSongs.filter(song => song.danceability === 0.620)
-      expect(songs).toHaveLength(danceability0620Songs.length)
+      let danceability0620Songs = cutSongs.filter(song => song.danceability === 0.483)
+      expect(songs).toHaveLength(2)
+      
       songs.forEach( (song) => {
-        expect(song.danceability).toBe(0.620)
+        expect(song.danceability).toBe(0.483)
       })
     })
     })
 
   test("returns songs with a given energy when energy is a query", () => {
     return request(app)
-    .get("/api/songs?energy=0.600")
+    .get("/api/songs?energy=0.282")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const energy0600Songs = cutSongs.filter(song => song.energy === 0.600)
-      expect(songs).toHaveLength(energy0600Songs.length)
+      const energy0600Songs = cutSongs.filter(song => song.energy === 0.282)
+      expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
-        expect(song.energy).toBe(0.600)
+        expect(song.energy).toBe(0.282)
       })
     })})
 
   test("returns songs with a given loudness when loudness is a query", () => {
     return request(app)
-    .get("/api/songs?loudness=-8.250")
+    .get("/api/songs?loudness=-12.487")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const loudnessSongs = cutSongs.filter(song => song.loudness === -8.250)
-      expect(songs).toHaveLength(loudnessSongs.length)
+      const loudnessSongs = cutSongs.filter(song => song.loudness === -12.487)
+      expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
-        expect(song.loudness).toBe(-8.250)
+        expect(song.loudness).toBe(-12.487)
       })
     })})
 
   test("returns songs with a given acousticness when acousticness is a query", () => {
     return request(app)
-    .get("/api/songs?acousticness=0.190")
+    .get("/api/songs?acousticness=0.207")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const acousticnessSongs = cutSongs.filter(song => song.acousticness === 0.190)
-      expect(songs).toHaveLength(acousticnessSongs.length)
+      const acousticnessSongs = cutSongs.filter(song => song.acousticness === 0.207)
+      expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
-        expect(song.acousticness).toBe(0.190)
+        expect(song.acousticness).toBe( 0.207)
       })
     })})
 
   test("returns songs with a given instrumentalness when instrumentalness is a query", () => {
     return request(app)
-    .get("/api/songs?instrumentalness=0.00200")
+    .get("/api/songs?instrumentalness=0")
     .expect(200)
     .then( ({body: { songs }}) => {
       const instrumentalnessSongs = cutSongs.filter(song => song.instrumentalness === 0.000)
-      expect(songs).toHaveLength(instrumentalnessSongs.length)
+      expect(songs).toHaveLength(37)
       songs.forEach( (song) => {
-        expect(song.instrumentalness).toBe(0.00200)
+        expect(song.instrumentalness).toBe(0.0)
       })
     })})
 
   test("returns songs with a given liveness when liveness is a query", () => {
     return request(app)
-    .get("/api/songs?liveness=0.085")
+    .get("/api/songs?liveness=0.322")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const livenessSongs = cutSongs.filter(song => song.liveness === 0.085)
-      expect(songs).toHaveLength(livenessSongs.length)
+      const livenessSongs = cutSongs.filter(song => song.liveness === 0.322)
+      expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
-        expect(song.liveness).toBe(0.085)
+        expect(song.liveness).toBe(0.322)
       })
     })})
 
   test("returns songs with a given valence when valence is a query", () => {
     return request(app)
-    .get("/api/songs?valence=0.398")
+    .get("/api/songs?valence=0.275")
     .expect(200)
     .then( ({body: { songs }}) => {
-      const valenceSongs = cutSongs.filter(song => song.valence === 0.398)
-      expect(songs).toHaveLength(valenceSongs.length)
+      const valenceSongs = cutSongs.filter(song => song.valence === 0.275)
+      expect(songs).toHaveLength(1)
       songs.forEach( (song) => {
-        expect(song.valence).toBe(0.398)
+        expect(song.valence).toBe(0.275)
       })
     })})
 
@@ -285,6 +298,8 @@ describe("GET /api/songs", () => {
       })
     })
 
+    
+
     test("returns a song with a range for tempo and an artist", () => {
       return request(app)
       .get("/api/songs?tempo_min=0.5&tempo_max=0.9&artist=Roy%20Orbison")
@@ -300,10 +315,13 @@ describe("GET /api/songs", () => {
         })
       })
     })
-  })
+
+    
+  }
+  )
     
 
-describe('GET /api/users',()=>{
+  describe('GET /api/users',()=>{
     test('returns 200', ()=> {
       return request(app)
         .get('/api/users')
