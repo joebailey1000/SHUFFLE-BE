@@ -78,7 +78,7 @@ exports.fetchUserRatings = (userId) => {
 }
 
 exports.postNewUserRatings = ({user_id, song_id, ranking}, networkPrediction) => {
-    return db.query(`INSERT INTO rankings (user_id, song_id, ranking, network_prediction) VALUES ($1, $2, $3, $4) RETURNING *`, [user_id, song_id, ranking, networkPrediction])
+    return db.query(`INSERT INTO rankings (ranking_id, user_id, song_id, ranking, network_prediction) VALUES ($1, $2, $3, $4) RETURNING *`, [Date.now(), user_id, song_id, ranking, networkPrediction])
     .then(({rows}) => rows)
 }
 
