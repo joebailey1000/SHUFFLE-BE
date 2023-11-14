@@ -1,17 +1,18 @@
-# Suffle.fm
+# Suffle.fm (backend)
 
-Suffle.fm predicts and plays songs based on previous song ratings!
+Suffle.fm predicts and plays songs based on previous song ratings! This repository contains the backend services.
 
 ## Features
 
-- **Personalized Music Recommendations**: Utilises a neural network to predict and suggest songs that users are likely to enjoy.
-- **User Rating System**: Allows users to rate songs, which continuously trains and improves the recommendation algorithm.
-- **Cross-Platform Accessibility**: Built with React Native for a mobile-first experience
+- **User Management**: Handles user authentication, registration, and profile management.
+- **Song Rating and Feedback**: Processes user ratings and feedback to refine music recommendations.
+- **Neural Network Integration**: Communicates with the Python-based neural network to generate song recommendations.
 
-## Tech Stack
+## Tech Stack (backend)
 
-- **Frontend**: React Native
-- **Backend**: Node.js
+- **Runtime**: Node
+- **Framework**: Express
+- **Testing**: Jest, Supertest
 - **AI/ML**: Python (Neural Network)
 - **Database**: PostgreSQL
 
