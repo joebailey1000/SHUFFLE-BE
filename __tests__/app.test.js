@@ -482,7 +482,7 @@ describe("/api/users/:id/ratings", () => {
 
 })
 
-describe('GET /api/users/:id/recs',()=>{
+describe.only('GET /api/users/:id/recs',()=>{
   test('selects ten random songs, then returns the one highest rated by the network',()=>{
     return request(app)
       .get('/api/users/3/recs')

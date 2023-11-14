@@ -4,7 +4,7 @@ connect = psycopg2.connect("postgres://qficvrjz:xgzayMFH1uUCEE-xAVxmnlxcRkDQcdaT
 
 cur = connect.cursor()
 
-cur.execute(f'SELECT * FROM users WHERE user_id = 3')
+cur.execute(f'SELECT * FROM users')
 
 records=cur.fetchall()
 

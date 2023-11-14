@@ -82,5 +82,5 @@ exports.getSongByNetworkRating = (req, res, next) => {
       let results=await spawnSnake(songs,false,'rank',req.params.id)
       results=JSON.parse(results)
       res.status(200).send({song: songs[results.indexOf(Math.max(...results))]})
-    })
+    }).catch((err)=>console.log(err))
 }
