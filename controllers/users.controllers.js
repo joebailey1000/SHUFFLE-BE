@@ -79,9 +79,9 @@ exports.getUserRatings = (req, res, next) => {
   })
 }
 
-exports.addNewUserRating = (req, res, next) => {
-  spawnSnake(req.body, true, 'neural_network_class')
-  postNewUserRatings(req.body).then((data) => {
+exports.addNewUserRating = async (req, res, next) => {
+  const results = await spawnSnake(req.body, true, 'neural_network_class')
+  postNewUserRatings(req.body, results).then((data) => {
     res.status(201).send({ ratings: data })
   }).catch(next)
 }

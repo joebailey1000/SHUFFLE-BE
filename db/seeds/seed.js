@@ -52,7 +52,8 @@ const seed = (songData, userData, rankingData) => {
             ranking_id SERIAL PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id),
             song_id  INTEGER REFERENCES songs(song_id),
-            ranking INTEGER NOT NULL
+            ranking INTEGER NOT NULL,
+            network_prediction FLOAT
         );`)})
     .then(() => {
         const FormattedSongData = songData.map((song) => {
