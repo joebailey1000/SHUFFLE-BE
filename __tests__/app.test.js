@@ -488,6 +488,7 @@ describe('GET /api/users/:id/recs',()=>{
       .get('/api/users/3/recs')
       .expect(200)
       .then( ( {body: { song }} ) => {
+        console.log(song)
         expect(song).toMatchObject({ song_id: expect.any(Number) })
       })
     })
