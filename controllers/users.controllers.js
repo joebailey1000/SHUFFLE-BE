@@ -11,26 +11,8 @@ exports.getUsers = (req, res, next) => {
 }
 
 exports.addNewUser = (req, res, next) => {
-  const { username,
-    popularity_weighting,
-    danceability_weighting,
-    energy_weighting,
-    acousticness_weighting,
-    instrumentalness_weighting,
-    liveness_weighting,
-    valence_weighting,
-    tempo_weighting,
-    output_weighting } = req.body;
-  postNewUser(username,
-    popularity_weighting,
-    danceability_weighting,
-    energy_weighting,
-    acousticness_weighting,
-    instrumentalness_weighting,
-    liveness_weighting,
-    valence_weighting,
-    tempo_weighting,
-    output_weighting)
+  const { username } = req.body;
+  postNewUser(username)
     .then((users) => {
       res.status(201).send({ users })
     })

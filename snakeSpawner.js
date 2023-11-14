@@ -16,6 +16,7 @@ function spawnSnake(networkInput, updateWeights,fileName,id) {
     let arr = []
 
     python3.stdout.on('data', (data) => {
+      console.log('stdout:'+data)
       arr.push(String(data))
     });
 
