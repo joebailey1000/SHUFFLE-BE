@@ -49,7 +49,7 @@ const seed = (songData, userData, rankingData) => {
         );`)})
     .then(() => {
         return db.query(`CREATE TABLE rankings (
-            ranking_id SERIAL PRIMARY KEY,
+            ranking_id BIGINT PRIMARY KEY,
             user_id INTEGER REFERENCES users(user_id),
             song_id  INTEGER REFERENCES songs(song_id),
             ranking INTEGER NOT NULL,
@@ -96,14 +96,16 @@ const seed = (songData, userData, rankingData) => {
     })
     .then( () => {
         if (!rankingData) return
+        let count = 0
         const FormattedRankingData = rankingData.map((ranking) => {
             return [
+                Date.now() + (++count),
                 ranking.user_ID,
                 ranking.song_ID,
                 ranking.ranking
             ]
         })
-        const queryString = format(`INSERT INTO rankings (user_id, song_id, ranking) VALUES %L RETURNING *;`, FormattedRankingData)
+        const queryString = format(`INSERT INTO rankings (ranking_id, user_id, song_id, ranking) VALUES %L RETURNING *;`, FormattedRankingData)
         return db.query(queryString)
     })
 
