@@ -95,7 +95,7 @@ exports.getSongByNetworkRating = (req, res, next) => {
 
 
   //send back the song with that index 
-  fetchSongs({ random: true, limit: 5 })
+  fetchSongs({ random: true, limit: 20 })
     .then(async (songs) => {
       let results=await spawnSnake(songs,false,'rank',req.params.id)
       results=JSON.parse(results)
