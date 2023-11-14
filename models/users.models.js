@@ -13,16 +13,7 @@ exports.fetchUsers = (username) => {
         });
 };
 
-exports.postNewUser = (username,
-    popularity_weighting,
-    danceability_weighting,
-    energy_weighting,
-    acousticness_weighting,
-    instrumentalness_weighting,
-    liveness_weighting,
-    valence_weighting,
-    tempo_weighting,
-    output_weighting) => {
+exports.postNewUser = (username) => {
     return db.query(`INSERT INTO users (username,
         popularity_weightings,
         danceability_weightings,
@@ -34,16 +25,10 @@ exports.postNewUser = (username,
         tempo_weightings,
         output_weightings)
         VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9, $10)
-        RETURNING *`, [username,
-            popularity_weighting,
-            danceability_weighting,
-            energy_weighting,
-            acousticness_weighting,
-            instrumentalness_weighting,
-            liveness_weighting,
-            valence_weighting,
-            tempo_weighting,
-            output_weighting])
+        RETURNING *`, [
+          user.username,
+          ...[...Array(9)].map(()=> [...Array(3)].map(()=> Math.random()).join(','))
+      ])
         .then(({rows}) => {
             return rows[0];
         })
