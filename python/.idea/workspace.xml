@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="565e9e08-4cf1-48d4-9557-2cf9df0a683d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../controllers/users.controllers.js" beforeDir="false" afterPath="$PROJECT_DIR$/../controllers/users.controllers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../seedPreviousSongs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../seedWeights.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../snakeSpawner.js" beforeDir="false" afterPath="$PROJECT_DIR$/../snakeSpawner.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2Y7osFmJCK56KDPUu5jKIPTtx9E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="565e9e08-4cf1-48d4-9557-2cf9df0a683d" name="Changes" comment="" />
+      <created>1699886184397</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1699886184397</updated>
+    </task>
+    <servers />
+  </component>
+</project>

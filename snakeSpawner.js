@@ -9,14 +9,14 @@ subprocess.on('error', (err) => {
   console.log(err);
 });
 
-function spawnSnake(networkInput, updateWeights) {
+function spawnSnake(networkInput, updateWeights,fileName,id) {
   return new Promise((resolve, reject) => {
-    const python3 = spawn('python3', [`${__dirname}/python/neural_network_class.py`, JSON.stringify(networkInput), updateWeights])
+    const python3 = spawn('python3', [`${__dirname}/python/${fileName}.py`, JSON.stringify(networkInput), updateWeights, id])
 
     let arr = []
 
     python3.stdout.on('data', (data) => {
-      arr.push(Number(String(data)))
+      arr.push(String(data))
     });
 
     python3.stderr.on('data', (data) => {

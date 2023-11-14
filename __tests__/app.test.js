@@ -341,7 +341,7 @@ describe("GET /api/songs", () => {
         })
     })
 
-    test.only("returns a 404 when user not found", () => {
+    test("returns a 404 when user not found", () => {
       return request(app)
       .get("/api/users?username=afcfetgsagsr")
       .expect(404)
@@ -493,12 +493,13 @@ describe("/api/users/:id/ratings", () => {
 
 })
 
-describe.only('GET /api/users/:id/recs',()=>{
+describe('GET /api/users/:id/recs',()=>{
   test('selects ten random songs, then returns the one highest rated by the network',()=>{
     return request(app)
       .get('/api/users/3/recs')
       .expect(200)
       .then( ( {body: { song }} ) => {
+        console.log(song)
         expect(song).toMatchObject({ song_id: expect.any(Number) })
       })
     })

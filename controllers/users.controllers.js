@@ -76,14 +76,13 @@ exports.getUserRatings = (req, res, next) => {
 }
 
 exports.addNewUserRating = (req, res, next) => {
-  spawnSnake(req.body, true)
+  spawnSnake(req.body, true, 'neural_network_class')
   postNewUserRatings(req.body).then((data) => {
     res.status(201).send({ ratings: data })
   }).catch(next)
 }
 
 exports.getSongByNetworkRating = (req, res, next) => {
-  console.log(':)')
 
   // res is a list of 5 songs (array with 5 song objects )
   // our results is an array of 5 ratings
@@ -94,17 +93,8 @@ exports.getSongByNetworkRating = (req, res, next) => {
   //send back the song with that index 
   fetchSongs({ random: true, limit: 5 })
     .then(async (songs) => {
-      const results = []
-      for (let i = 0; i < 5; i++) {
-         let guess = await spawnSnake({song_id:songs[i].song_id, user_id:req.params.id,ranking:5},false, results)
-         if ( guess > 8) {
-            res.status(200).send({song:songs[i]})
-            return
-         }
-         results.push(guess)
-      }
-  
+      let results=await spawnSnake(songs,false,'rank',req.params.id)
+      results=JSON.parse(results)
       res.status(200).send({song: songs[results.indexOf(Math.max(...results))]})
-
     })
 }
