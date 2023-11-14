@@ -87,7 +87,6 @@ exports.addNewUserRating = (req, res, next) => {
 }
 
 exports.getSongByNetworkRating = (req, res, next) => {
-  console.log(':)')
 
   // res is a list of 5 songs (array with 5 song objects )
   // our results is an array of 5 ratings

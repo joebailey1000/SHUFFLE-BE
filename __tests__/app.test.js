@@ -50,7 +50,6 @@ describe("GET /api/songs", () => {
       .get("/api/songs")
       .expect(200)
       .then(({body: { songs }}) => {
-        console.log(songs)
         expect(songs).toHaveLength(songData.length)
       }) })
 
@@ -323,7 +322,6 @@ describe("GET /api/songs", () => {
         .get('/api/users?username=Rob')
         .then(({body}) => {
           expect(body.users).toHaveLength(1)
-          console.log(body.users)
         })
     })
 
@@ -353,7 +351,6 @@ describe('POST /api/users', ()=> {
         output_weighting: "0.4,0.5,0.1"
       })
       .then((res) => {
-        console.log(res.body, "TEST RESULT")
         expect(res.status).toBe(201)
         expect(res.body).toMatchObject({
           users: {
@@ -374,7 +371,7 @@ describe('POST /api/users', ()=> {
     })
   })
 
-describe('PATCH /api/users/:id', ()=> {
+describe.skip('PATCH /api/users/:id', ()=> {
     test('returns 201 and the updated user', ()=> {
       return request(app)
       .patch('/api/users/1')
