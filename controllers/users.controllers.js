@@ -19,7 +19,8 @@ exports.addNewUser = (req, res, next) => {
     instrumentalness_weighting,
     liveness_weighting,
     valence_weighting,
-    tempo_weighting } = req.body;
+    tempo_weighting,
+    output_weighting } = req.body;
   postNewUser(username,
     popularity_weighting,
     danceability_weighting,
@@ -28,7 +29,8 @@ exports.addNewUser = (req, res, next) => {
     instrumentalness_weighting,
     liveness_weighting,
     valence_weighting,
-    tempo_weighting)
+    tempo_weighting,
+    output_weighting)
     .then((users) => {
       res.status(201).send({ users })
     })
@@ -45,7 +47,8 @@ exports.updateUserWeightings = (req, res, next) => {
     instrumentalness_weighting,
     liveness_weighting,
     valence_weighting,
-    tempo_weighting
+    tempo_weighting,
+    output_weighting
   } = req.body;
 
   const weightingsToUpdate = {
@@ -56,7 +59,8 @@ exports.updateUserWeightings = (req, res, next) => {
     instrumentalness_weighting: instrumentalness_weighting || 0,
     liveness_weighting: liveness_weighting || 0,
     valence_weighting: valence_weighting || 0,
-    tempo_weighting: tempo_weighting || 0
+    tempo_weighting: tempo_weighting || 0,
+    output_weighting: output_weighting || "",
   };
   patchUserWeightings(userId, weightingsToUpdate)
     .then((user) => {

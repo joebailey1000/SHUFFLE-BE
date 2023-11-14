@@ -337,7 +337,7 @@ describe("GET /api/songs", () => {
   })
 
 describe('POST /api/users', ()=> {
-    test.only('returns 201 and the new user', ()=> {
+    test('returns 201 and the new user', ()=> {
       return request(app)
       .post('/api/users')
       .send({
@@ -349,22 +349,25 @@ describe('POST /api/users', ()=> {
         instrumentalness_weighting: 1.3,
         liveness_weighting: 0.9,
         valence_weighting: 0.8,
-        tempo_weighting: 1.2
+        tempo_weighting: 1.2,
+        output_weighting: "0.4,0.5,0.1"
       })
       .then((res) => {
+        console.log(res.body, "TEST RESULT")
         expect(res.status).toBe(201)
         expect(res.body).toMatchObject({
           users: {
             user_id: 9,
             username: 'Big John',
-            popularity_weighting: 0.9,
-            danceability_weighting: 1,
-            energy_weighting: 1.1,
-            acousticness_weighting: 0.7,
-            instrumentalness_weighting: 1.3,
-            liveness_weighting: 0.9,
-            valence_weighting: 0.8,
-            tempo_weighting: 1.2
+            popularity_weightings: "0.9",
+            danceability_weightings: "1",
+            energy_weightings: "1.1",
+            acousticness_weightings: "0.7",
+            instrumentalness_weightings: "1.3",
+            liveness_weightings: "0.9",
+            valence_weightings: "0.8",
+            tempo_weightings: "1.2",
+            output_weightings: "0.4,0.5,0.1"
           }
         })
       })
@@ -383,7 +386,8 @@ describe('PATCH /api/users/:id', ()=> {
         instrumentalness_weighting: 0.1,
         liveness_weighting: 0.1,
         valence_weighting: 0.1,
-        tempo_weighting: 0.1
+        tempo_weighting: 0.1,
+        output_weighting: "0.4,0.5,0.1"
       })
       .then((res) => {
         expect(res.status).toBe(200)
@@ -398,14 +402,15 @@ describe('PATCH /api/users/:id', ()=> {
             instrumentalness_weighting: 1.1,
             liveness_weighting: 1.1,
             valence_weighting: 1.1,
-            tempo_weighting: 1.1
+            tempo_weighting: 1.1,
+            output_weighting: "0.4,0.5,0.1"
           }
         )
       })
     })
-    test.only('returns 201 and updated user when only one field is updated', ()=> {
+    test('returns 201 and updated user when only one field is updated', ()=> {
       return request(app)
-      .patch('/api/users/1')
+      .patch('/api/users')
       .send({
         popularity_weightings: 1
       })
@@ -422,7 +427,8 @@ describe('PATCH /api/users/:id', ()=> {
             instrumentalness_weighting: 1,
             liveness_weighting: 1,
             valence_weighting: 1,
-            tempo_weighting: 1
+            tempo_weighting: 1,
+            output_weighting: "0.4,0.5,0.1"
           }
         )
       })
