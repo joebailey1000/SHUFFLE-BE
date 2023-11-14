@@ -37,10 +37,10 @@ These instructions will get you a copy of the project up and running on your loc
     `pip install -r requirements.txt`
 
 ### Team Members
-[Joe Lockhart](@joebailey1000)
-[Rob Lehane](@rob-Lehane)
-[Nick Diplos](@nickdip)
-[Louis Roach](@LouisRoach)
+[Rob Lehane](https://github.com/rob-Lehane)
+[Joe Bailey](https://github.com/joebailey1000)
+[Nick Diplos](https://github.com/nickdip)
+[Louis Roach](https://github.com/LouisRoach)
 
 
 
