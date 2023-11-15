@@ -117,8 +117,8 @@ if len(previous_songs_json['songs'])>4:
   hidden_errors = [
       -(float(current_rating_value)-hidden_outputs[i-1]*weights_json['outputWeights'][i-1]-hidden_outputs[i-2]*weights_json['outputWeights'][i-2])/(10*weights_json['outputWeights'][i]) for i in range(3)
   ]
-  hidden_weights_json=[','.join([str(j[i]-hidden_errors[i]/200) for i in range(3)]) for j in weights_json['hiddenWeights']]
-  output_weights_json=','.join([str(i-output_error/200) for i in weights_json['outputWeights']])
+  hidden_weights_json=[','.join([str(j[i]-hidden_errors[i]/1000) for i in range(3)]) for j in weights_json['hiddenWeights']]
+  output_weights_json=','.join([str(i-output_error/1000) for i in weights_json['outputWeights']])
 
   weights_json={'hiddenWeights':hidden_weights_json,'outputWeights':output_weights_json}
 
