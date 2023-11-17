@@ -37,9 +37,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 3. Install python dependencies:
     `pip install -r requirements.txt`
-    - If you get `Error: externally-managed-environment` you may need to set up your own virtual environment
-        `python3 -m venv <name_of_venv>`
-        `source <name_of_venv>/bin/activate`
+    - If you get an `Error: externally-managed-environment` you may need to set up your own virtual environment:
+        - `python3 -m venv <name_of_venv>`
+        - `source <name_of_venv>/bin/activate`
 
 ### Scripts
 - Create Databases:
@@ -52,8 +52,8 @@ These instructions will get you a copy of the project up and running on your loc
     `npm run start`
 
 - Run test suite:
-    `npm test app`
-    `npm test api`
+    - `npm test app`
+    - `npm test api`
 
 ### Team Members
 [Rob Lehane](https://github.com/rob-Lehane)
