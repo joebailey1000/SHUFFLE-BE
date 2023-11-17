@@ -1,6 +1,6 @@
-# Suffle.fm (backend)
+# Shufl.fm (backend)
 
-Suffle.fm predicts and plays songs based on previous song ratings! This repository contains the backend services.
+Shufl.fm predicts and plays songs based on previous song ratings! This repository contains the backend services.
 
 ## Features
 
@@ -24,6 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 - Node.js
 - Python 3.x
+- pip
 - PostgreSQL
 
 ### Installation
@@ -36,6 +37,23 @@ These instructions will get you a copy of the project up and running on your loc
 
 3. Install python dependencies:
     `pip install -r requirements.txt`
+    - If you get `Error: externally-managed-environment` you may need to set up your own virtual environment
+        `python3 -m venv <name_of_venv>`
+        `source <name_of_venv>/bin/activate`
+
+### Scripts
+- Create Databases:
+    `npm run setup-db`
+
+- Seed Databases:
+    `npm run seed-prod`
+
+- Instruct server to listen:
+    `npm run start`
+
+- Run test suite:
+    `npm test app`
+    `npm test api`
 
 ### Team Members
 [Rob Lehane](https://github.com/rob-Lehane)
